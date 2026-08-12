@@ -1,0 +1,1 @@
+import { AppShell } from '@/shared/site'; export default function Billing(){return <AppShell role="advertiser" title="Billing"><div className="card"><div className="demo-note">Payment provider, currency, invoice & refund rules chưa được khách hàng xác nhận.</div><h3>Payment methods</h3><p>UI shell được giữ để nối payment backend sau này.</p></div></AppShell>}
