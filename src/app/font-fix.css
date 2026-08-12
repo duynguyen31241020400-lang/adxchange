@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Condensed:wght@500;600;700;800&display=swap');
+
+html, body, button, input, select, textarea {
+  font-family: 'Inter', 'Segoe UI', Arial, Helvetica, sans-serif;
+  font-synthesis: none;
+}
+
+.brand,
+.eyebrow,
+.kicker,
+h1,
+h2,
+h3,
+.metric,
+.step:before {
+  font-family: 'Roboto Condensed', 'Segoe UI', Arial, Helvetica, sans-serif;
+  font-synthesis: none;
+}
+
+.nav-links,
+.btn,
+.side-link,
+.table,
+.field,
+.demo-note,
+.notice,
+.badge {
+  font-family: 'Inter', 'Segoe UI', Arial, Helvetica, sans-serif;
+}
