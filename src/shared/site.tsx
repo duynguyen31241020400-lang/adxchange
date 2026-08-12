@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { LogoutButton } from '@/modules/identity/logout-button';
 
 export function MarketingNav() {
-  return <header className="nav"><div className="container nav-inner"><Link className="brand" href="/">ADXCHANGE</Link><nav className="nav-links"><Link href="/advertisers">Nhà quảng cáo</Link><Link href="/publishers">Chủ địa điểm</Link><Link href="/login">Đăng nhập</Link><Link className="btn btn-primary" href="/register">Bắt đầu</Link></nav></div></header>;
+  return <header className="nav"><div className="container nav-inner"><Link className="brand" href="/">ADXCHANGE</Link><nav className="nav-links"><Link href="/advertisers">Nhà quảng cáo</Link><Link href="/publishers">Chủ địa điểm</Link><Link href="/register">Đăng ký</Link><Link className="btn btn-primary" href="/login">Đăng nhập</Link></nav></div></header>;
 }
 
 export function Footer() { return <footer className="footer"><div className="container">ADXCHANGE · Market-validation MVP · Các số liệu trong dashboard demo không phải dữ liệu vận hành thật.</div></footer>; }
