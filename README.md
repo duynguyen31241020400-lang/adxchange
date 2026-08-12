@@ -1,41 +1,16 @@
 # Adxchange
 
-Market-validation front-end MVP for Adxchange, based on the current landing-page brief and pre-seed product deck.
+Market-validation front-end MVP for Adxchange.
 
-## What is implemented
+## Current surfaces
 
-- Public onboarding / audience routing
-- Advertiser landing
-- Publisher landing
-- Demo login/register UX
-- Advertiser dashboard, campaign wizard, reporting and billing shell
-- Publisher dashboard, venue/screen setup, content, earnings and payouts
+- Public marketing site
+- Advertiser app prototype
+- Publisher / Earner portal prototype
 - Operations dashboard shell
-- Shared domain types and repository contracts
-- Mock data boundary ready to be replaced by API repositories
-- SEO sitemap/robots
-- Architecture, security and unresolved-product documentation
 
 ## Architecture
 
-Business code is grouped by bounded context:
+The frontend is intentionally backend-ready: UI -> module/service boundary -> repository contract -> mock implementation today, API implementation later. Business code is grouped by domain so related information is easy to find: identity, advertising, publishing, delivery, finance and operations.
 
-- `identity`
-- `advertising`
-- `publishing`
-- `delivery`
-- `finance`
-- `operations`
-
-The front-end must access data through repository contracts rather than coupling UI directly to a future backend.
-
-## Run
-
-```bash
-npm install
-npm run dev
-```
-
-## Important
-
-Dashboard values, pricing, earnings, payment, proof-of-play and authentication are demo/prototype data unless explicitly connected to production services later.
+See `docs/architecture/system-overview.md`, `docs/architecture/security.md`, `docs/architecture/repository-layout.md` and `docs/product/open-questions.md`.

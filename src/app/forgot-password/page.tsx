@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function ForgotPassword(){return <main className="container" style={{maxWidth:520,padding:'70px 0'}}><Link className="brand" href="/">ADXCHANGE</Link><div className="card" style={{marginTop:28}}><div className="demo-note">UX prototype only. Production response must not reveal whether an email exists.</div><h2>Quên mật khẩu</h2><div className="field"><label>Email</label><input placeholder="you@company.com"/></div><button className="btn btn-primary" style={{marginTop:18}}>Gửi hướng dẫn demo</button></div></main>}

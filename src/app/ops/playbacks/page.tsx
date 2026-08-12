@@ -1,0 +1,2 @@
+import { AppShell } from '@/shared/site';
+export default function Page(){return <AppShell role="ops" title="Playbacks"><div className="card"><div className="demo-note">Playback/proof-of-play semantics chưa được business khóa. Route này chừa boundary cho delivery module và backend telemetry.</div><h3>Playback verification shell</h3><p>Future data: screen, creative, server/device timestamps, verification state and proof asset.</p></div></AppShell>}
