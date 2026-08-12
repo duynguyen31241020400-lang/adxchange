@@ -5,7 +5,7 @@ export function MarketingNav() {
   return <header className="nav"><div className="container nav-inner"><Link className="brand" href="/">ADXCHANGE</Link><nav className="nav-links"><Link href="/advertisers">Nhà quảng cáo</Link><Link href="/publishers">Chủ địa điểm</Link><Link href="/register">Đăng ký</Link><Link className="btn btn-primary" href="/login">Đăng nhập</Link></nav></div></header>;
 }
 
-export function Footer() { return <footer className="footer"><div className="container">ADXCHANGE · Market-validation MVP · Các số liệu trong dashboard demo không phải dữ liệu vận hành thật.</div></footer>; }
+export function Footer() { return <footer className="footer"><div className="container">ADXCHANGE PLATFORM</div></footer>; }
 
 export function AppShell({ role, title, children }: { role: 'advertiser'|'publisher'|'ops'; title: string; children: React.ReactNode }) {
   const links = role === 'advertiser' ? [['Dashboard','/app/advertiser/dashboard'],['Campaigns','/app/advertiser/campaigns'],['Tạo campaign','/app/advertiser/campaigns/new'],['Reports','/app/advertiser/reports'],['Billing','/app/advertiser/billing']] : role === 'publisher' ? [['Onboarding','/earner/onboarding'],['Dashboard','/earner/dashboard'],['Venues','/earner/venues'],['Screens','/earner/screens'],['Content','/earner/content'],['Earnings','/earner/earnings'],['Payouts','/earner/payouts']] : [['Overview','/ops/dashboard'],['Campaigns','/ops/campaigns'],['Venues','/ops/venues'],['Screens','/ops/screens'],['Playbacks','/ops/playbacks'],['Reconciliation','/ops/reconciliation']];
