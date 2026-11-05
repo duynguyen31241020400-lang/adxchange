@@ -25,7 +25,7 @@ export default function HomePage() {
         <div className="card"><div className="kicker">Self-serve</div><div className="metric">5 phút</div><p>Journey tạo campaign được thiết kế ngắn, rõ và có thể đo drop-off theo từng bước.</p></div>
         <div className="card"><div className="kicker">Publisher</div><div className="metric">50 / 50</div><p>Mô hình revenue share được phản ánh trong prototype earnings.</p></div>
         <div className="card"><div className="kicker">Measurement</div><div className="metric">Logs + Proof</div><p>Campaign reporting mô phỏng playback logs và proof-of-play.</p></div>
-      </div></section>
+      </div></div></section>
     </main>
     <Footer />
   </>;
