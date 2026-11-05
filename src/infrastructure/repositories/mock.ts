@@ -6,7 +6,7 @@ import type { Campaign } from '@/domain/types';
 export const mockCampaignRepository: CampaignRepository = {
   async list(){ return campaigns; },
   async getById(id){ return campaigns.find(c=>c.id===id) ?? null; },
-  async create(input){ return { ...input, id:`cmp_demo_${Date.now()}` }; },
+  async create(input){ return { ...input, id:`cmp_${Date.now()}` }; },
   async update(id,patch){ const current=campaigns.find(c=>c.id===id); if(!current) throw new Error('Campaign not found'); return { ...current, ...patch } as Campaign; }
 };
 
