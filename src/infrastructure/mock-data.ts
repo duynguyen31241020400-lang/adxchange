@@ -1,9 +1,9 @@
 import type { Campaign, Venue, Screen } from '@/domain/types';
 
 export const campaigns: Campaign[] = [
-  { id:'cmp_demo_001', name:'District 1 Lunch Reach', status:'active', venues:12, budget:180, plays:4280 },
-  { id:'cmp_demo_002', name:'Weekend Café Trial', status:'scheduled', venues:8, budget:120, plays:0 },
-  { id:'cmp_demo_003', name:'Gym Radius Test', status:'completed', venues:15, budget:220, plays:7120 },
+  { id:'cmp_001', name:'District 1 Lunch Reach', status:'active', venues:12, budget:180, plays:4280 },
+  { id:'cmp_002', name:'Weekend Café Trial', status:'scheduled', venues:8, budget:120, plays:0 },
+  { id:'cmp_003', name:'Gym Radius Test', status:'completed', venues:15, budget:220, plays:7120 },
 ];
 
 export const venues: Venue[] = [
