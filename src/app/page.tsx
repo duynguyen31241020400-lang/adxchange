@@ -12,7 +12,7 @@ export default function HomePage() {
           <p style={{fontSize:18,maxWidth:680}}>Adxchange kết nối trực tiếp thương hiệu cần tiếp cận khách hàng quanh khu vực với các địa điểm đang có sẵn màn hình TV.</p>
           <div className="hero-actions"><Link href="/advertisers" className="btn btn-primary">Tôi muốn quảng cáo</Link><Link href="/publishers" className="btn btn-secondary">Tôi có màn hình</Link></div>
         </div>
-        <div className="hero-panel"><div className="kicker" style={{color:'white'}}>Hyperlocal network</div><h3 style={{fontSize:28,marginTop:10}}>Chọn khu vực. Chọn thời gian. Theo dõi lượt phát.</h3><p>Chọn khu vực, khung giờ và creative, rồi theo dõi lượt phát và proof-of-play ngay trên dashboard.</p><div className="mock-map" /></div>
+        
       </div></section>
       <section className="section"><div className="container">
         <div className="section-head"><div className="kicker">Hai phía, một nền tảng</div><h2>Bạn đến Adxchange để làm gì?</h2></div>
