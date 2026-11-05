@@ -12,7 +12,7 @@ export default function HomePage() {
           <p style={{fontSize:18,maxWidth:680}}>Adxchange kết nối trực tiếp thương hiệu cần tiếp cận khách hàng quanh khu vực với các địa điểm đang có sẵn màn hình TV.</p>
           <div className="hero-actions"><Link href="/advertisers" className="btn btn-primary">Tôi muốn quảng cáo</Link><Link href="/publishers" className="btn btn-secondary">Tôi có màn hình</Link></div>
         </div>
-        <div className="hero-panel"><div className="kicker" style={{color:'white'}}>Hyperlocal network</div><h3 style={{fontSize:28,marginTop:10}}>Chọn khu vực. Chọn thời gian. Theo dõi lượt phát.</h3><p>Prototype này mô phỏng journey chính để kiểm chứng nhu cầu thị trường trước khi backend vận hành thật.</p><div className="mock-map" /></div>
+        <div className="hero-panel"><div className="kicker" style={{color:'white'}}>Hyperlocal network</div><h3 style={{fontSize:28,marginTop:10}}>Chọn khu vực. Chọn thời gian. Theo dõi lượt phát.</h3><p>Chọn khu vực, khung giờ và creative, rồi theo dõi lượt phát và proof-of-play ngay trên dashboard.</p><div className="mock-map" /></div>
       </div></section>
       <section className="section"><div className="container">
         <div className="section-head"><div className="kicker">Hai phía, một nền tảng</div><h2>Bạn đến Adxchange để làm gì?</h2></div>
@@ -22,9 +22,9 @@ export default function HomePage() {
         </div>
       </div></section>
       <section className="section"><div className="container"><div className="grid-3">
-        <div className="card"><div className="kicker">Self-serve</div><div className="metric">5 phút</div><p>Journey tạo campaign được thiết kế ngắn, rõ và có thể đo drop-off theo từng bước.</p></div>
-        <div className="card"><div className="kicker">Publisher</div><div className="metric">50 / 50</div><p>Mô hình revenue share được phản ánh trong prototype earnings.</p></div>
-        <div className="card"><div className="kicker">Measurement</div><div className="metric">Logs + Proof</div><p>Campaign reporting mô phỏng playback logs và proof-of-play.</p></div>
+        <div className="card"><div className="kicker">Self-serve</div><div className="metric">5 phút</div><p>Tạo campaign nhanh và rõ ràng, chỉ qua vài bước.</p></div>
+        <div className="card"><div className="kicker">Publisher</div><div className="metric">50 / 50</div><p>Doanh thu được chia sẻ minh bạch giữa nền tảng và chủ địa điểm.</p></div>
+        <div className="card"><div className="kicker">Measurement</div><div className="metric">Logs + Proof</div><p>Báo cáo campaign hiển thị playback logs và proof-of-play.</p></div>
       </div></div></section>
     </main>
     <Footer />
