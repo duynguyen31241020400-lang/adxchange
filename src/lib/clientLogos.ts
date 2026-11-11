@@ -22,7 +22,10 @@ export const clientLogoMeta: Record<string, ClientLogoMeta> = {
   'Khải Hoàn Land': { src: '/clients/khai-hoan-land.png', needsDarkChip: true },
   'Kim Dental': { src: '/clients/kim-dental.png' },
   'LG Clinic': { src: '/clients/lg-clinic.png' },
-  // Nestlé / Nutrinest — text-only (no asset)
+  // Nestlé: black line art on transparent — readable on A/C; theme B white pad covers dark bg.
+  Nestlé: { src: '/clients/nestle.png' },
+  // Seed name is "Nutrinest" (red mark on transparent) — readable on A/C and B without chip.
+  Nutrinest: { src: '/clients/nutrinest.png' },
 }
 
 /** @deprecated prefer clientLogoMeta; kept for call sites that only need the path */

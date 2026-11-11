@@ -20,6 +20,7 @@ Các lựa chọn khi brief không nói rõ, hoặc môi trường buộc phải
 - Logo ADX ruby chưa có → dùng tạm `ADXCHANGE_Horizontallogo*.png`.
 - Video OOH LED 163MB không đưa vào repo; trang dự án dẫn Facebook.
 - `assets-raw/` và `seed-media/` trong `.gitignore`.
+- Client logos Nestlé / Nutrinest: assets under `public/clients/{nestle,nutrinest}.png`. Seed name for NutriNest is **`Nutrinest`** (one capital N). Nestlé source was black line art on opaque white → punched near-white to alpha so it sits on cream A/C; theme B already pads all non-chip logos with a light chip, so `needsDarkChip` stays false. Nutrinest is red (#C5161D) on transparent — readable on A/C and B without a dark chip.
 
 ## Font tiêu đề
 

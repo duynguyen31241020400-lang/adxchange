@@ -19,7 +19,7 @@ export const clientNames = [
   'LG Clinic',
 ] as const
 
-/** Brand mark files under seed-media/logos (Wikimedia zip + user extras). Nestlé/Nutrinest omitted. */
+/** Brand mark files under seed-media/logos (Wikimedia zip + user extras). Nestlé/Nutrinest live in public/clients via clientLogos.ts. */
 export const clientLogoFiles: Record<string, string> = {
   Samsung: 'logos/Samsung.png',
   Philips: 'logos/Philips.png',
