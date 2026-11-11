@@ -19,6 +19,26 @@ export const clientNames = [
   'LG Clinic',
 ] as const
 
+/** Brand mark files under seed-media/logos (Wikimedia zip + user extras). Nestlé/Nutrinest omitted. */
+export const clientLogoFiles: Record<string, string> = {
+  Samsung: 'logos/Samsung.png',
+  Philips: 'logos/Philips.png',
+  Toshiba: 'logos/Toshiba.png',
+  Castrol: 'logos/Castrol.png',
+  'Thế Giới Di Động': 'logos/TheGioiDiDong.png',
+  'Điện Máy Xanh': 'logos/DienMayXanh.png',
+  'An Khang': 'logos/AnKhang.png',
+  'Nguyễn Kim': 'logos/NguyenKim.png',
+  URC: 'logos/URC.png',
+  TopZone: 'logos/TopZone.png',
+  MoMo: 'logos/MoMo.png',
+  'Galaxy Cinema': 'logos/GalaxyCinema.png',
+  'Thiên Long': 'logos/ThienLong.png',
+  'Khải Hoàn Land': 'logos/KhaiHoanLand.png',
+  'Kim Dental': 'logos/KimDental.png',
+  'LG Clinic': 'logos/LGClinic.png',
+}
+
 export const faqsSeed = [
   {
     order: 1,

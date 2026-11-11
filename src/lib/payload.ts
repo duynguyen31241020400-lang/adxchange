@@ -108,6 +108,6 @@ export async function getPrivacy() {
 
 export async function getClients() {
   const payload = await getPayloadClient()
-  return payload.find({ collection: 'clients', limit: 100, sort: 'name' })
+  return payload.find({ collection: 'clients', limit: 100, sort: 'name', depth: 1 })
 }
 

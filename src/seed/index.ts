@@ -6,7 +6,14 @@ import { getPayload } from 'payload'
 import config from '../payload.config'
 import { servicesSeed } from './services'
 import { projectsSeed } from './projects'
-import { aboutSeed, clientNames, faqsSeed, privacyPlainSections, siteSettingsSeed } from './site'
+import {
+  aboutSeed,
+  clientLogoFiles,
+  clientNames,
+  faqsSeed,
+  privacyPlainSections,
+  siteSettingsSeed,
+} from './site'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const seedMedia = path.join(root, 'seed-media')
@@ -159,9 +166,19 @@ async function main() {
   console.log('Seeding clients...')
   const clientIdByName = new Map<string, string | number>()
   for (const name of clientNames) {
+    const logoFile = clientLogoFiles[name]
+    let logoId: string | number | undefined
+    if (logoFile) {
+      const logo = await uploadFile(payload, logoFile, `Logo ${name}`)
+      logoId = logo.id
+    }
     const c = await payload.create({
       collection: 'clients',
-      data: { name, showLogo: false },
+      data: {
+        name,
+        logo: logoId,
+        showLogo: Boolean(logoId),
+      },
       overrideAccess: true,
     })
     clientIdByName.set(name, c.id)

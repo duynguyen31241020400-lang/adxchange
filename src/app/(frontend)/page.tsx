@@ -99,7 +99,13 @@ export default async function HomePage() {
         }))}
       />
 
-      <ClientMarquee names={clients.docs.map((c) => c.name)} />
+      <ClientMarquee
+        clients={clients.docs.map((c) => ({
+          name: c.name,
+          showLogo: c.showLogo,
+          logo: c.logo,
+        }))}
+      />
 
       <ContactCTA
         hotlineLabel={settings.hotlineLabel || undefined}

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { clientLogoSrc } from '@/lib/clientLogos'
-import { getAbout, getClients, getPublishedProjects } from '@/lib/payload'
+import { getAbout, getClients, getPublishedProjects, mediaUrl } from '@/lib/payload'
 import { breadcrumbSchema, jsonLd, pageMeta } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
@@ -96,7 +96,8 @@ export default async function AboutSubPage({ params }: { params: Promise<{ slug:
               ? p.clients.some((cl) => typeof cl === 'object' && cl && cl.id === c.id)
               : false,
           )
-          const logo = clientLogoSrc(c.name)
+          const logo =
+            (c.showLogo ? mediaUrl(c.logo) : null) || clientLogoSrc(c.name) || null
           return (
             <div key={c.id} className="border-t border-[var(--line)] pt-4">
               {logo ? (
