@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { clientLogoSrc } from '@/lib/clientLogos'
 import { getAbout, getClients, getPublishedProjects } from '@/lib/payload'
 import { breadcrumbSchema, jsonLd, pageMeta } from '@/lib/seo'
 
@@ -95,9 +96,19 @@ export default async function AboutSubPage({ params }: { params: Promise<{ slug:
               ? p.clients.some((cl) => typeof cl === 'object' && cl && cl.id === c.id)
               : false,
           )
+          const logo = clientLogoSrc(c.name)
           return (
             <div key={c.id} className="border-t border-[var(--line)] pt-4">
-              <p className="text-h3">{c.name}</p>
+              {logo ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={logo}
+                  alt={c.name}
+                  className="h-10 w-auto max-w-[12rem] object-contain"
+                />
+              ) : (
+                <p className="text-h3">{c.name}</p>
+              )}
               {related.length ? (
                 <ul className="mt-3 space-y-1">
                   {related.map((p) => (
