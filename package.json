@@ -11,7 +11,7 @@
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
-    "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx src/seed/index.ts",
+    "seed": "cross-env NODE_OPTIONS=--no-deprecation tsx --env-file=.env.local --env-file=.env src/seed/index.ts",
     "images": "node scripts/prepare-images.mjs",
     "seo-check": "node scripts/seo-check.mjs",
     "test": "pnpm run test:unit && pnpm run test:e2e",

@@ -2,19 +2,21 @@
  * Upload seed-media/logos into Payload Media and attach to matching clients
  * with showLogo=true — without wiping projects.
  */
-import 'dotenv/config'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { getPayload } from 'payload'
-import config from '../payload.config'
+import { loadSeedEnv } from './loadEnv'
 import { clientLogoFiles } from './site'
+
+loadSeedEnv()
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const seedMedia = path.join(root, 'seed-media')
 
+type PayloadClient = Awaited<ReturnType<typeof import('payload').getPayload>>
+
 async function uploadFile(
-  payload: Awaited<ReturnType<typeof getPayload>>,
+  payload: PayloadClient,
   relativePath: string,
   alt: string,
 ) {
@@ -35,6 +37,8 @@ async function uploadFile(
 }
 
 async function main() {
+  const { getPayload } = await import('payload')
+  const { default: config } = await import('../payload.config')
   const payload = await getPayload({ config })
   const clients = await payload.find({ collection: 'clients', limit: 100, overrideAccess: true })
 
@@ -51,10 +55,10 @@ async function main() {
       data: { logo: media.id, showLogo: true },
       overrideAccess: true,
     })
-    console.log('Updated', name, '→ media', media.id)
+    console.log('Updated logo:', name)
   }
 
-  console.log('Done.')
+  console.log('Done logos-only.')
   process.exit(0)
 }
 
