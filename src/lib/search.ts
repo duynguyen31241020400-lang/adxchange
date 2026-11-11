@@ -31,23 +31,34 @@ export async function searchContent(q: string, limit = 6): Promise<SearchHit[]> 
   })
 
   const scored: SearchHit[] = []
-  for (const doc of result.docs as Array<Record<string, unknown>>) {
-    const searchText = String(doc.searchText || '')
+  for (const doc of result.docs) {
+    const row = doc as unknown as {
+      id: string | number
+      searchText?: string | null
+      title?: string | null
+      titleNormalized?: string | null
+      clientLabel?: string | null
+      kind?: string | null
+      href?: string | null
+      image?: unknown
+      doc?: { relationTo?: string }
+    }
+    const searchText = String(row.searchText || '')
     if (!terms.every((t) => searchText.includes(t))) continue
 
-    const title = String(doc.title || '')
-    const titleNorm = String(doc.titleNormalized || normalizeSearchText(title))
-    const clientLabel = String(doc.clientLabel || '')
+    const title = String(row.title || '')
+    const titleNorm = String(row.titleNormalized || normalizeSearchText(title))
+    const clientLabel = String(row.clientLabel || '')
     const clientNorm = normalizeSearchText(clientLabel)
     let rank = 300
     if (terms.every((t) => titleNorm.includes(t))) rank = 100
     else if (terms.every((t) => clientNorm.includes(t))) rank = 200
 
-    const kind = String(doc.kind || (doc.doc as { relationTo?: string })?.relationTo || '')
-    const href = String(doc.href || '#')
-    const image = doc.image
+    const kind = String(row.kind || row.doc?.relationTo || '')
+    const href = String(row.href || '#')
+    const image = row.image
     scored.push({
-      id: String(doc.id),
+      id: String(row.id),
       title,
       href,
       kind,

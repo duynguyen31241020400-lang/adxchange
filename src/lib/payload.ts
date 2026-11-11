@@ -1,4 +1,4 @@
-import { getPayload } from 'payload'
+import { getPayload, type Where } from 'payload'
 import config from '@payload-config'
 import { draftMode } from 'next/headers'
 
@@ -25,7 +25,7 @@ export async function getPublishedProjects(options?: {
 }) {
   const payload = await getPayloadClient()
   const draft = await getDraft()
-  const and: Record<string, unknown>[] = []
+  const and: Where[] = []
   if (options?.serviceSlug) {
     const services = await payload.find({
       collection: 'services',

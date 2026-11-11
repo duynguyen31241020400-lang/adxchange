@@ -16,10 +16,6 @@ export const Media: CollectionConfig = {
   upload: {
     staticDir: 'media',
     mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'],
-    limits: {
-      fileSize: 15_000_000,
-    },
-
     imageSizes: [
       { name: 'thumb', width: 400, height: 400, position: 'centre', formatOptions: { format: 'webp' } },
       { name: 'card', width: 1200, height: undefined, position: 'centre', formatOptions: { format: 'webp' } },
@@ -29,11 +25,21 @@ export const Media: CollectionConfig = {
         width: 1200,
         height: 630,
         position: 'centre',
-        crop: 'center',
         formatOptions: { format: 'webp' },
       },
     ],
     adminThumbnail: 'thumb',
+  },
+  hooks: {
+    beforeValidate: [
+      ({ req, data }) => {
+        const file = req.file
+        if (file && typeof file.size === 'number' && file.size > 15_000_000) {
+          throw new Error('File vượt quá 15MB')
+        }
+        return data
+      },
+    ],
   },
   fields: [
     {

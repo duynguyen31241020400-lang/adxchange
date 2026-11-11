@@ -57,7 +57,7 @@ export async function submitLead(formData: FormData) {
       phone: parsed.data.phone,
       email: parsed.data.email || undefined,
       company: parsed.data.company || undefined,
-      service: parsed.data.serviceId || undefined,
+      service: parsed.data.serviceId ? Number(parsed.data.serviceId) : undefined,
       message: parsed.data.message || undefined,
       sourcePage: parsed.data.sourcePage,
       consentAt: new Date().toISOString(),

@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { anyone, isAdminOrEditor, publishedOnly } from '@/lib/access'
+import { isAdminOrEditor, publishedOnly } from '@/lib/access'
 import { slugify } from '@/lib/normalize'
 import { revalidateService } from '@/hooks/revalidate'
 

@@ -7,8 +7,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayload({ config })
 
   const [projects, services] = await Promise.all([
-    payload.find({ collection: 'projects', limit: 200, depth: { slug: true, updatedAt: true }, overrideAccess: false }),
-    payload.find({ collection: 'services', limit: 50, select: { slug: true, updatedAt: true }, overrideAccess: false }),
+    payload.find({
+      collection: 'projects',
+      limit: 200,
+      depth: 0,
+      select: { slug: true, updatedAt: true },
+      overrideAccess: false,
+    }),
+    payload.find({
+      collection: 'services',
+      limit: 50,
+      depth: 0,
+      select: { slug: true, updatedAt: true },
+      overrideAccess: false,
+    }),
   ])
 
   const staticRoutes = [

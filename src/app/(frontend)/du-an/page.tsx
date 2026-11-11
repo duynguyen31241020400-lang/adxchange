@@ -27,9 +27,6 @@ export default async function ProjectsPage({
   ])
 
   const usedServiceIds = new Set<string | number>()
-  for (const p of projects.docs) {
-    // collect from all projects for filter — refetch all if filtered
-  }
   const allProjects = serviceSlug
     ? (await getPublishedProjects()).docs
     : projects.docs

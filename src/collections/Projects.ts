@@ -7,7 +7,7 @@ import {
   OrderedListFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
-import { anyone, isAdminOrEditor, publishedOnly } from '@/lib/access'
+import { isAdminOrEditor, publishedOnly } from '@/lib/access'
 import { slugify } from '@/lib/normalize'
 import { revalidateProject } from '@/hooks/revalidate'
 

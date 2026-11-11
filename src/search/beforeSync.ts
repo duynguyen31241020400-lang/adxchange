@@ -27,7 +27,7 @@ export const beforeSyncWithSearch: BeforeSync = async ({ originalDoc, searchDoc 
   let body = ''
   let href = ''
   let image: unknown = undefined
-  let kind = collection
+  const kind = collection
 
   if (collection === 'projects') {
     title = String(doc.name || '')
