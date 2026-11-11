@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { ClientLogo } from '@/components/ClientLogo'
 import { clientLogoSrc } from '@/lib/clientLogos'
 import { getAbout, getClients, getPublishedProjects, mediaUrl } from '@/lib/payload'
 import { breadcrumbSchema, jsonLd, pageMeta } from '@/lib/seo'
@@ -101,12 +102,7 @@ export default async function AboutSubPage({ params }: { params: Promise<{ slug:
           return (
             <div key={c.id} className="border-t border-[var(--line)] pt-4">
               {logo ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={logo}
-                  alt={c.name}
-                  className="client-logo h-10 w-auto max-w-[12rem] object-contain"
-                />
+                <ClientLogo name={c.name} src={logo} className="h-10 w-auto max-w-[12rem]" />
               ) : (
                 <p className="text-h3">{c.name}</p>
               )}

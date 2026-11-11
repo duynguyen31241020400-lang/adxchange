@@ -246,6 +246,12 @@ body {
   border-radius: 2px;
 }
 
+/* Light-on-transparent marks already sit on a dark chip — skip the white pad */
+[data-theme="b"] .client-logo-dark-chip img.client-logo {
+  background: transparent;
+  padding: 0;
+}
+
 .marquee-track {
   display: flex;
   gap: 1.5rem;

@@ -1,3 +1,4 @@
+import { ClientLogo } from '@/components/ClientLogo'
 import { clientLogoSrc } from '@/lib/clientLogos'
 import { mediaUrl } from '@/lib/media'
 
@@ -21,11 +22,10 @@ function MarqueeItem({ client }: { client: MarqueeClient }) {
   return (
     <span className="inline-flex items-center gap-4 text-h3 !text-[var(--muted)]">
       {src ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <ClientLogo
+          name={client.name}
           src={src}
-          alt={client.name}
-          className="client-logo h-8 w-auto max-w-[9rem] object-contain opacity-90 md:h-10 md:max-w-[11rem]"
+          className="h-8 w-auto max-w-[9rem] opacity-90 md:h-10 md:max-w-[11rem]"
         />
       ) : (
         <span>{client.name}</span>

@@ -1,24 +1,39 @@
-/** Static name → public logo path for brands we have assets for. */
-export const clientLogos: Record<string, string> = {
-  'Thế Giới Di Động': '/clients/the-gioi-di-dong.png',
-  'Điện Máy Xanh': '/clients/dien-may-xanh.png',
-  TopZone: '/clients/topzone.png',
-  'An Khang': '/clients/an-khang.png',
-  'Nguyễn Kim': '/clients/nguyen-kim.png',
-  MoMo: '/clients/momo.png',
-  Toshiba: '/clients/toshiba.png',
-  Samsung: '/clients/samsung.png',
-  Castrol: '/clients/castrol.png',
-  URC: '/clients/urc.png',
-  'Galaxy Cinema': '/clients/galaxy-cinema.png',
-  'Thiên Long': '/clients/thien-long.png',
-  Philips: '/clients/philips.png',
-  'Khải Hoàn Land': '/clients/khai-hoan-land.png',
-  'Kim Dental': '/clients/kim-dental.png',
-  'LG Clinic': '/clients/lg-clinic.png',
+/** Static brand logo metadata for assets under /public/clients. */
+export type ClientLogoMeta = {
+  src: string
+  /** White / light-on-transparent marks that wash out on cream `--bg`. */
+  needsDarkChip?: boolean
+}
+
+export const clientLogoMeta: Record<string, ClientLogoMeta> = {
+  'Thế Giới Di Động': { src: '/clients/the-gioi-di-dong.png' },
+  'Điện Máy Xanh': { src: '/clients/dien-may-xanh.png' },
+  TopZone: { src: '/clients/topzone.png' },
+  'An Khang': { src: '/clients/an-khang.png' },
+  'Nguyễn Kim': { src: '/clients/nguyen-kim.png' },
+  MoMo: { src: '/clients/momo.png' },
+  Toshiba: { src: '/clients/toshiba.png' },
+  Samsung: { src: '/clients/samsung.png' },
+  Castrol: { src: '/clients/castrol.png' },
+  URC: { src: '/clients/urc.png' },
+  'Galaxy Cinema': { src: '/clients/galaxy-cinema.png' },
+  'Thiên Long': { src: '/clients/thien-long.png', needsDarkChip: true },
+  Philips: { src: '/clients/philips.png' },
+  'Khải Hoàn Land': { src: '/clients/khai-hoan-land.png', needsDarkChip: true },
+  'Kim Dental': { src: '/clients/kim-dental.png' },
+  'LG Clinic': { src: '/clients/lg-clinic.png' },
   // Nestlé / Nutrinest — text-only (no asset)
 }
 
+/** @deprecated prefer clientLogoMeta; kept for call sites that only need the path */
+export const clientLogos: Record<string, string> = Object.fromEntries(
+  Object.entries(clientLogoMeta).map(([name, meta]) => [name, meta.src]),
+)
+
 export function clientLogoSrc(name: string): string | undefined {
-  return clientLogos[name]
+  return clientLogoMeta[name]?.src
+}
+
+export function clientLogoNeedsDarkChip(name: string): boolean {
+  return Boolean(clientLogoMeta[name]?.needsDarkChip)
 }
