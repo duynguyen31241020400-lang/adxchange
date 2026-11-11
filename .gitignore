@@ -1,0 +1,37 @@
+# dependencies
+node_modules
+.pnpm-store
+
+# next / payload
+.next
+.open-next
+.payload
+dist
+build
+
+# env
+.env
+.env.local
+.env.production
+.env*.local
+
+# media (large / customer originals)
+assets-raw/
+seed-media/
+!seed-media/.gitkeep
+media/
+
+# os / ide
+.DS_Store
+*.log
+.vercel
+.netlify
+
+# test / reports artifacts (keep structure)
+playwright-report
+test-results
+coverage
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

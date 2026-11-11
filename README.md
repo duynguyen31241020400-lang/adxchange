@@ -1,16 +1,33 @@
-# Adxchange
+# ADX (adxchange.agency)
 
-Market-validation front-end MVP for Adxchange.
+Website agency ADX — Next.js 15 App Router + Payload CMS 3 + Postgres + Tailwind 4.
 
-## Current surfaces
+## Dev
 
-- Public marketing site
-- Advertiser app prototype
-- Publisher / Earner portal prototype
-- Operations dashboard shell
+```bash
+pnpm install
+cp .env.example .env   # chỉnh DATABASE_URI, PAYLOAD_SECRET
+pnpm images            # assets-raw → seed-media + public
+pnpm dev               # lần đầu Payload push schema
+pnpm seed
+```
 
-## Architecture
+Admin: http://localhost:3000/admin  
+Seed admin mặc định: `august@adxchange.agency` / `ChangeMeADX2026!`
 
-The frontend is intentionally backend-ready: UI -> module/service boundary -> repository contract -> mock implementation today, API implementation later. Business code is grouped by domain so related information is easy to find: identity, advertising, publishing, delivery, finance and operations.
+## Scripts
 
-See `docs/architecture/system-overview.md`, `docs/architecture/security.md`, `docs/architecture/repository-layout.md` and `docs/product/open-questions.md`.
+- `pnpm images` — xử lý ảnh từ `assets-raw/`
+- `pnpm seed` — nạp nội dung + media
+- `pnpm test:unit` — Vitest (normalize search)
+- `pnpm seo-check` — crawl SEO sau `pnpm build && pnpm start`
+- `pnpm typecheck` / `pnpm lint` / `pnpm build`
+
+## Env
+
+Xem `.env.example`. Thiếu R2 → lưu media local trong `media/`.
+
+## Docs
+
+- `DECISIONS.md` — lựa chọn kỹ thuật
+- `HUONG-DAN-QUAN-TRI.md` — hướng dẫn admin tiếng Việt

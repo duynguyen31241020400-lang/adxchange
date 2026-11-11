@@ -1,0 +1,15 @@
+# Cloudflare Workers / Pages — NOT a deploy target for this app as-is.
+# Probe (2026-11-11): OpenNext + next-on-pages rejected for ADX Payload+Postgres.
+# See DECISIONS.md § Deploy / Cloudflare.
+#
+# Why this file exists: documents the intentional non-path so agents do not re-attempt
+# CF Pages as production without reading DECISIONS.
+#
+# Later: Cloudflare can still front DNS/CDN for adxchange.agency pointing at
+# Netlify or Railway. Named cloudflared tunnels are temporary share options only.
+
+name = "adxchange-cf-not-deployed"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# No `main` / `assets` / pages_build_output_dir on purpose — do not `wrangler deploy`.
