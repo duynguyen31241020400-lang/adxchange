@@ -12,6 +12,7 @@ Các lựa chọn khi brief không nói rõ, hoặc môi trường buộc phải
 - Brief: Next.js 15. Payload `3.93.0` peer range loại Next `15.5.x`, nên pin `next@15.4.11` (vẫn là Next 15 App Router).
 - Local Postgres (apt) thay Docker/Neon khi chưa có `DATABASE_URI` production.
 - Media: local disk khi thiếu R2; bật `@payloadcms/storage-s3` khi đủ biến `R2_*`.
+- Netlify không giữ `media/` (gitignore + filesystem function tạm). Khi chưa có R2: mirror seed vào `public/media/file/` + rewrite URL `/api/media/file` → `/media/file` (`pnpm publish-media`). R2 vẫn là hướng production đúng.
 
 ## Nội dung / ảnh
 
