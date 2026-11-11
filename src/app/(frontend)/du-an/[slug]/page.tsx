@@ -99,7 +99,9 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
             <span className="text-h1 !text-white">{project.name}</span>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+        {/* Uniform dim overlay (photo + ~40% black) so white hero text stays readable */}
+        <div className="absolute inset-0 bg-black/40" aria-hidden />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" aria-hidden />
         <div className="container absolute inset-x-0 bottom-0 pb-10">
           <Link href="/du-an" className="text-small !text-white/80">
             ← Dự án

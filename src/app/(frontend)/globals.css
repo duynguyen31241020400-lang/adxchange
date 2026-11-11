@@ -239,6 +239,13 @@ body {
   background-size: 100% 1px;
 }
 
+/* Keep dark-on-transparent brand marks readable on theme B */
+[data-theme="b"] img.client-logo {
+  background: rgba(255, 255, 255, 0.94);
+  padding: 0.35rem 0.55rem;
+  border-radius: 2px;
+}
+
 .marquee-track {
   display: flex;
   gap: 1.5rem;
@@ -280,9 +287,13 @@ body {
   clip-path: inset(100% 0 0 0);
 }
 .reveal-image.is-in {
-  animation: revealImage 750ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  clip-path: inset(0 0 0 0);
+  animation: revealImage 750ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 @keyframes revealImage {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
   to {
     clip-path: inset(0 0 0 0);
   }

@@ -105,7 +105,7 @@ export default async function AboutSubPage({ params }: { params: Promise<{ slug:
                 <img
                   src={logo}
                   alt={c.name}
-                  className="h-10 w-auto max-w-[12rem] object-contain"
+                  className="client-logo h-10 w-auto max-w-[12rem] object-contain"
                 />
               ) : (
                 <p className="text-h3">{c.name}</p>

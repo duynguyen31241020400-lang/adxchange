@@ -37,6 +37,8 @@ export function ProjectCard({
             <span className="text-h3 !text-[var(--bg)]">{project.name}</span>
           </div>
         )}
+        {/* Dim translucent overlay so cover photos stay readable under any future text */}
+        <div className="pointer-events-none absolute inset-0 bg-black/40" aria-hidden />
       </div>
       <div className="mt-4 flex items-start gap-3">
         <span className="text-index">{String(index).padStart(2, '0')}</span>

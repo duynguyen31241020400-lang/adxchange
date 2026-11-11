@@ -25,7 +25,7 @@ function MarqueeItem({ client }: { client: MarqueeClient }) {
         <img
           src={src}
           alt={client.name}
-          className="h-8 w-auto max-w-[9rem] object-contain opacity-80 md:h-10 md:max-w-[11rem]"
+          className="client-logo h-8 w-auto max-w-[9rem] object-contain opacity-90 md:h-10 md:max-w-[11rem]"
         />
       ) : (
         <span>{client.name}</span>
