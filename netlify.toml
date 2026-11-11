@@ -1,0 +1,30 @@
+# Preferred Node host for ADX (Next.js 15 + Payload 3 + Postgres).
+# Cloudflare Pages / OpenNext is NOT production for this stack — see DECISIONS.md.
+#
+# August: connect this repo in Netlify, set env (below), then deploy.
+# Required env:
+#   DATABASE_URI          Neon Postgres connection string
+#   PAYLOAD_SECRET        long random secret
+#   NEXT_PUBLIC_SITE_URL  https://<your-netlify-site>.netlify.app (or custom domain)
+#   IP_HASH_SALT          random salt for lead IP hashing
+# Optional:
+#   R2_BUCKET, R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_PUBLIC_URL
+#   RESEND_API_KEY, LEAD_NOTIFY_EMAIL, NEXT_PUBLIC_ALLOW_INDEX, NEXT_PUBLIC_GA_ID
+#
+# After first deploy with a live DB: run `pnpm seed` once (Netlify CLI / one-off),
+# then rotate the seed admin password.
+
+[build]
+  command = "pnpm build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+  PNPM_VERSION = "10"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[functions]
+  # Payload admin + SSR need a real Node runtime, not edge-only.
+  node_bundler = "esbuild"

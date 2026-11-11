@@ -1,0 +1,18 @@
+# Fallback Node host when Netlify function limits or Payload runtime needs a long-lived process.
+# Prefer Netlify first (brief); use Railway Hobby if Netlify is awkward for Payload+Postgres.
+# See DECISIONS.md.
+#
+# Required env (Railway Variables):
+#   DATABASE_URI, PAYLOAD_SECRET, NEXT_PUBLIC_SITE_URL, IP_HASH_SALT
+# Optional: R2_*, RESEND_API_KEY, LEAD_NOTIFY_EMAIL, NEXT_PUBLIC_ALLOW_INDEX, NEXT_PUBLIC_GA_ID
+
+[build]
+  builder = "NIXPACKS"
+  buildCommand = "pnpm install --frozen-lockfile && pnpm build"
+
+[deploy]
+  startCommand = "pnpm start"
+  healthcheckPath = "/"
+  healthcheckTimeout = 30
+  restartPolicyType = "ON_FAILURE"
+  restartPolicyMaxRetries = 3
