@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ADX — Site đã chuyển</title>
+<meta name="description" content="ADX (Adxchange Agency). Trang coming-soon cũ đã ngừng; site agency mới đang được triển khai.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #160a0e;
+    --bg-alt: #241318;
+    --ink: #f8eeef;
+    --body: #d9c6ca;
+    --muted: #a99197;
+    --primary: #c21f3a;
+    --line: #3a2229;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100%; }
+  body {
+    color: var(--ink);
+    font-family: "Be Vietnam Pro", system-ui, sans-serif;
+    background:
+      radial-gradient(ellipse 80% 55% at 15% 10%, rgba(194, 31, 58, 0.28), transparent 55%),
+      radial-gradient(ellipse 70% 50% at 90% 90%, rgba(142, 27, 51, 0.22), transparent 50%),
+      linear-gradient(160deg, var(--bg) 0%, #1c0e14 45%, var(--bg-alt) 100%);
+  }
+  main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(24px, 5vw, 64px);
+    max-width: 920px;
+  }
+  .brand {
+    font-family: Anton, "Arial Narrow", sans-serif;
+    font-size: clamp(64px, 14vw, 140px);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ink);
+    animation: rise 0.9s ease-out both;
+  }
+  .brand span { color: var(--primary); }
+  h1 {
+    margin-top: clamp(20px, 3vw, 32px);
+    font-family: Anton, "Arial Narrow", sans-serif;
+    font-size: clamp(28px, 4.5vw, 48px);
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    max-width: 16ch;
+    animation: rise 0.9s ease-out 0.12s both;
+  }
+  p {
+    margin-top: 16px;
+    max-width: 42ch;
+    font-size: clamp(16px, 2vw, 18px);
+    line-height: 1.65;
+    color: var(--body);
+    animation: rise 0.9s ease-out 0.24s both;
+  }
+  .note {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 48ch;
+    animation: rise 0.9s ease-out 0.36s both;
+  }
+  .pulse {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background: var(--primary);
+    vertical-align: middle;
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.35; transform: scale(0.85); }
+    50% { opacity: 1; transform: scale(1.15); }
+  }
+</style>
+</head>
+<body>
+<main>
+  <div class="brand" aria-label="ADX">AD<span>X</span></div>
+  <h1>Site đã chuyển</h1>
+  <p>
+    Trang coming-soon này không còn là website chính.
+    Site agency ADX mới (Payload CMS) đang được triển khai trên nền tảng production theo brief.
+  </p>
+  <p class="note">
+    <span class="pulse" aria-hidden="true"></span>
+    Domain production sẽ trỏ về site agency mới khi deploy xong. Liên hệ
+    <a href="mailto:cuong@adxchange.agency" style="color:var(--ink)">cuong@adxchange.agency</a>.
+  </p>
+</main>
+</body>
+</html>

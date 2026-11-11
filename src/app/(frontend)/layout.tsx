@@ -9,6 +9,9 @@ import { Analytics } from '@/components/Analytics'
 import { getSiteSettings } from '@/lib/payload'
 import './globals.css'
 
+/** CMS-backed chrome (header/footer); avoid Postgres during static prerender without DATABASE_URI. */
+export const dynamic = 'force-dynamic'
+
 const beVietnam = Be_Vietnam_Pro({
   subsets: ['latin', 'vietnamese'],
   weight: ['400', '600'],

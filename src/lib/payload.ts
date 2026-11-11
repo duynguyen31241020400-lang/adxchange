@@ -4,7 +4,14 @@ import { draftMode } from 'next/headers'
 
 export { mediaUrl, mediaAlt } from './media'
 
+function hasDatabaseUri() {
+  return Boolean(process.env.DATABASE_URI || process.env.DATABASE_URL)
+}
+
 export async function getPayloadClient() {
+  if (!hasDatabaseUri()) {
+    throw new Error('DATABASE_URI is not configured')
+  }
   return getPayload({ config })
 }
 

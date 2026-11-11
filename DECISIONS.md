@@ -42,3 +42,6 @@ Các lựa chọn khi brief không nói rõ, hoặc môi trường buộc phải
 
 - Ưu tiên Netlify theo brief; nếu function limit → Railway.
 - Môi trường agent hiện không có Netlify/Railway/Neon/R2 credentials → chưa deploy production trong PR này; cần August cấp env rồi `pnpm seed` trên DB prod.
+- **Vercel vẫn đang linked** tới repo (`adxchange` + `adxchange-coming-soon`) → GitHub status check đỏ dù brief chọn Netlify. Cần August disconnect hoặc set env trên Vercel, hoặc bỏ GitHub integration.
+- `coming-soon/` giữ stub HTML tối thiểu (brand ADX + ghi chú site đã chuyển) vì project Vercel `adxchange-coming-soon` rootDirectory = `coming-soon` (đã xóa trong rebuild → build fail). Stub chỉ để CI/Vercel project cũ không gãy; không phải surface production.
+- Main app: `sitemap` `force-dynamic` + try/catch để `pnpm build` không cần Postgres live. Runtime vẫn cần `DATABASE_URI` + `PAYLOAD_SECRET` (và R2 nếu media remote).

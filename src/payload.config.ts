@@ -38,13 +38,22 @@ export default buildConfig({
   collections: [Users, Media, Clients, Services, Projects, Faqs, Leads],
   globals: [SiteSettings, AboutPage, PrivacyPage],
   editor: lexicalEditor(),
+  // PAYLOAD_SECRET required at runtime; build-time fallback keeps `next build` from crashing
+  // when Vercel preview env is incomplete (still set a real secret in production).
   secret: process.env.PAYLOAD_SECRET || 'dev-secret-change-me',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URI || process.env.DATABASE_URL || '',
+      // Empty string breaks pg SASL at connect; placeholder is for config init only.
+      // Runtime / seed still need a real DATABASE_URI (Neon etc.).
+      // connectionTimeoutMillis keeps accidental connects from hanging CI builds.
+      connectionString:
+        process.env.DATABASE_URI ||
+        process.env.DATABASE_URL ||
+        'postgresql://build:build@127.0.0.1:5432/adx_build',
+      connectionTimeoutMillis: 2000,
     },
     push: process.env.NODE_ENV !== 'production',
   }),
