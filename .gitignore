@@ -19,7 +19,8 @@ build
 assets-raw/
 seed-media/
 !seed-media/.gitkeep
-media/
+# Payload local upload dir (repo root only). Seeded Netlify fallback lives in public/media/.
+/media/
 
 # os / ide
 .DS_Store
@@ -35,3 +36,4 @@ coverage
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.neon
