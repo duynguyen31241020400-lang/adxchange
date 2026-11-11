@@ -53,7 +53,9 @@ export default buildConfig({
         process.env.DATABASE_URI ||
         process.env.DATABASE_URL ||
         'postgresql://build:build@127.0.0.1:5432/adx_build',
+      // Neon serverless / Netlify functions: wake-up headroom + stay under free-tier pool caps.
       connectionTimeoutMillis: 10_000,
+      max: 5,
     },
     push: process.env.NODE_ENV !== 'production',
   }),
