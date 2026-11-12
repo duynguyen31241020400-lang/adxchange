@@ -14,8 +14,10 @@ export function useGSAP(effect: (ctx: gsap.Context) => void | (() => void), deps
     if (mq.matches) return
 
     let innerCleanup: void | (() => void)
-    const ctx = gsap.context(() => {
-      innerCleanup = effect(ctx)
+    // gsap.context() runs the callback synchronously and passes itself in;
+    // reading `ctx` here would hit the TDZ before the const is assigned.
+    const ctx = gsap.context((self: gsap.Context) => {
+      innerCleanup = effect(self)
     })
 
     return () => {
