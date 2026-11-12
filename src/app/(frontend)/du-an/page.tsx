@@ -1,7 +1,8 @@
-import { ProjectCard } from '@/components/ProjectCard'
 import { ContactCTA } from '@/components/ContactCTA'
 import { ProjectFilters } from '@/components/ProjectFilters'
-import { getPublishedProjects, getServices, getSiteSettings } from '@/lib/payload'
+import { FilmReel } from '@/components/FilmReel'
+import { ProjectListRows } from '@/components/ProjectListRows'
+import { getPublishedProjects, getServices, getSiteSettings, mediaUrl } from '@/lib/payload'
 import { breadcrumbSchema, jsonLd, pageMeta } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
@@ -20,25 +21,35 @@ export default async function ProjectsPage({
 }) {
   const sp = await searchParams
   const serviceSlug = sp['dich-vu']
-  const [projects, services, settings] = await Promise.all([
+  const [projects, services, settings, allProjects] = await Promise.all([
     getPublishedProjects({ serviceSlug }),
     getServices(),
     getSiteSettings(),
+    getPublishedProjects({ limit: 100 }),
   ])
 
-  const usedServiceIds = new Set<string | number>()
-  const allProjects = serviceSlug
-    ? (await getPublishedProjects()).docs
-    : projects.docs
-  for (const p of allProjects) {
+  const counts: Record<string, number> = {}
+  for (const p of allProjects.docs) {
     if (Array.isArray(p.services)) {
       for (const s of p.services) {
-        if (typeof s === 'object' && s && 'id' in s) usedServiceIds.add(s.id)
+        if (typeof s === 'object' && s && 'slug' in s && s.slug) {
+          counts[String(s.slug)] = (counts[String(s.slug)] || 0) + 1
+        }
       }
     }
   }
 
-  const filterServices = services.docs.filter((s) => usedServiceIds.has(s.id))
+  const filterServices = services.docs.filter((s) => s.slug && (counts[s.slug] || 0) > 0)
+
+  const rows = projects.docs.map((p) => ({
+    id: p.id,
+    slug: p.slug,
+    name: p.name,
+    clientLabel: p.clientLabel,
+    year: p.year,
+    summary: (p as { summary?: string | null }).summary,
+    coverUrl: mediaUrl(p.coverImage),
+  }))
 
   return (
     <>
@@ -51,29 +62,21 @@ export default async function ProjectsPage({
           ]),
         )}
       />
-      <div className="container pt-28 pb-10">
-        <h1 className="text-h1">Dự án</h1>
-        <ProjectFilters services={filterServices} active={serviceSlug} />
-        <div className="mt-12 hidden gap-x-8 gap-y-14 lg:grid lg:grid-cols-12">
-          {projects.docs.map((p, i) => {
-            const row = Math.floor(i / 2)
-            const oddRow = row % 2 === 0
-            const first = i % 2 === 0
-            const span = oddRow ? (first ? 'col-span-7' : 'col-span-5') : first ? 'col-span-5' : 'col-span-7'
-            const aspect = i % 2 === 0 ? '4/3' : '4/5'
-            return (
-              <div key={p.id} className={span}>
-                <ProjectCard project={p} index={i + 1} aspect={aspect} />
-              </div>
-            )
-          })}
-        </div>
-        <div className="mt-12 grid gap-10 lg:hidden">
-          {projects.docs.map((p, i) => (
-            <ProjectCard key={p.id} project={p} index={i + 1} aspect="4/5" />
-          ))}
+      <div className="section-white">
+        <div className="container pt-28 pb-10">
+          <h1 className="text-display !text-[var(--ruby)]">Dự án</h1>
+          <ProjectFilters
+            services={filterServices}
+            active={serviceSlug}
+            counts={counts}
+            total={allProjects.docs.length}
+          />
         </div>
       </div>
+
+      <FilmReel projects={rows} />
+      <ProjectListRows projects={rows} />
+
       <ContactCTA
         hotlineLabel={settings.hotlineLabel || undefined}
         hotline={settings.hotline || undefined}

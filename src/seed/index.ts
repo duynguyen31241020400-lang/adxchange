@@ -250,6 +250,7 @@ async function main() {
         clients: clientIds,
         clientLabel: p.clientLabel,
         year: p.year ?? undefined,
+        summary: (p as { summary?: string }).summary || p.context.slice(0, 180),
         services: p.serviceSlugs.map((s) => serviceIdBySlug.get(s)).filter(Boolean) as (string | number)[],
         coverImage: coverId,
         gallery,
