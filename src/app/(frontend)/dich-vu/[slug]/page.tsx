@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ContactCTA } from '@/components/ContactCTA'
 import { ProjectCard } from '@/components/ProjectCard'
@@ -42,35 +43,41 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           ]),
         )}
       />
-      <div className="container pt-28 pb-16">
-        <h1 className="text-h1">{service.name}</h1>
-        {img ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={img}
-            alt={mediaAlt(service.image, service.name || '')}
-            className="mt-10 aspect-[16/9] w-full object-cover"
-          />
-        ) : null}
-        <p className="mt-8 max-w-3xl">{service.description}</p>
+      <header className="section-ruby">
+        <div className="container pt-28 pb-12">
+          <Link href="/dich-vu" className="text-small !text-white/75 underline underline-offset-4">
+            ← Dịch vụ
+          </Link>
+          <h1 className="text-display mt-6">{service.name}</h1>
+        </div>
+      </header>
+      <div className="section-white">
+        <div className="container pb-16 pt-10">
+          {img ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={img}
+              alt={mediaAlt(service.image, service.name || '')}
+              className="aspect-[16/9] w-full object-cover"
+            />
+          ) : null}
+          <p className="mt-8 max-w-3xl text-[var(--ink)]">{service.description}</p>
 
-        {projects.docs.length ? (
-          <div className="mt-16">
-            <h2 className="text-h2">Dự án</h2>
-            <div className="mt-8 grid gap-10 md:grid-cols-2">
-              {projects.docs.map((p, i) => (
-                <ProjectCard key={p.id} project={p} index={i + 1} aspect="4/3" />
-              ))}
+          {projects.docs.length ? (
+            <div className="mt-16">
+              <h2 className="text-h2 !text-[var(--ruby)]">Dự án</h2>
+              <div className="mt-8 grid gap-10 md:grid-cols-2">
+                {projects.docs.map((p, i) => (
+                  <ProjectCard key={p.id} project={p} index={i + 1} aspect="4/3" />
+                ))}
+              </div>
             </div>
-          </div>
-        ) : null}
+          ) : null}
+        </div>
       </div>
       <ContactCTA
         hotlineLabel={settings.hotlineLabel || undefined}
         hotline={settings.hotline || undefined}
-        zalo={settings.zalo || undefined}
-        zaloUrl={settings.zaloUrl || undefined}
-        email={settings.email || undefined}
       />
     </>
   )

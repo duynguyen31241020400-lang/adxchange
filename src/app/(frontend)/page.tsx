@@ -29,17 +29,33 @@ export const metadata = pageMeta({
 })
 
 export default async function HomePage() {
-  const [settings, projects, allProjects, services, clients, about] = await Promise.all([
-    getSiteSettings(),
-    getPublishedProjects({ featured: true, limit: 7 }),
-    getPublishedProjects({ limit: 50 }),
-    getServices(),
-    getClients(),
-    getAbout(),
-  ])
+  let settings: Awaited<ReturnType<typeof getSiteSettings>> | null = null
+  let featured: Awaited<ReturnType<typeof getPublishedProjects>>['docs'] = []
+  let allCount = 0
+  let serviceDocs: Awaited<ReturnType<typeof getServices>>['docs'] = []
+  let clientDocs: Awaited<ReturnType<typeof getClients>>['docs'] = []
+  let about: Awaited<ReturnType<typeof getAbout>> | null = null
 
-  const featured = projects.docs
-  const serviceRows = services.docs.map((s) => {
+  try {
+    const [s, projects, allProjects, services, clients, a] = await Promise.all([
+      getSiteSettings(),
+      getPublishedProjects({ featured: true, limit: 7 }),
+      getPublishedProjects({ limit: 50 }),
+      getServices(),
+      getClients(),
+      getAbout(),
+    ])
+    settings = s
+    featured = projects.docs
+    allCount = allProjects.docs.length
+    serviceDocs = services.docs
+    clientDocs = clients.docs
+    about = a
+  } catch (err) {
+    console.error('[home] CMS unavailable', err)
+  }
+
+  const serviceRows = serviceDocs.map((s) => {
     const related = featured.find((p) =>
       Array.isArray(p.services)
         ? p.services.some((svc) => typeof svc === 'object' && svc && 'id' in svc && svc.id === s.id)
@@ -51,8 +67,8 @@ export default async function HomePage() {
     }
   })
 
-  const firstBanner = mediaUrl(settings.heroBanners?.[0]?.image)
-  const videoUrl = mediaUrl(settings.heroVideo)
+  const firstBanner = mediaUrl(settings?.heroBanners?.[0]?.image)
+  const videoUrl = mediaUrl(settings?.heroVideo)
   const fieldImages = featured
     .flatMap((p) => {
       const gallery = Array.isArray(p.gallery) ? p.gallery : []
@@ -68,12 +84,12 @@ export default async function HomePage() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(orgSchema(settings))} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(orgSchema(settings || {}))} />
       <IntroTrivision bannerSrc={firstBanner} />
       <Hero
-        slogan={settings.slogan || 'ADX. Không thể không thấy.'}
-        subline={settings.heroSubline}
-        banners={(settings.heroBanners || []).map((b) => ({
+        slogan={settings?.slogan || 'ADX. Không thể không thấy.'}
+        subline={settings?.heroSubline}
+        banners={(settings?.heroBanners || []).map((b) => ({
           caption: b.caption,
           image: b.image,
         }))}
@@ -81,12 +97,12 @@ export default async function HomePage() {
       />
 
       <HomeValues
-        vision={about.vision || 'Làm thương hiệu được nhìn thấy.'}
-        values={(about.values || []).map((v) => ({ title: v.title, description: v.description }))}
+        vision={about?.vision || 'Làm thương hiệu được nhìn thấy.'}
+        values={(about?.values || []).map((v) => ({ title: v.title, description: v.description }))}
       />
 
       <ProjectGate
-        totalCount={allProjects.docs.length}
+        totalCount={allCount}
         projects={featured.map((p) => ({
           name: p.name,
           clientLabel: p.clientLabel,
@@ -106,7 +122,7 @@ export default async function HomePage() {
       <FieldStrip images={fieldImages} />
 
       <Stats
-        items={(settings.stats || []).map((s) => ({
+        items={(settings?.stats || []).map((s) => ({
           value: s.value || '',
           label: s.label || '',
         }))}
@@ -114,7 +130,7 @@ export default async function HomePage() {
 
       <section className="section-white py-16">
         <ClientMarquee
-          clients={clients.docs.map((c) => ({
+          clients={clientDocs.map((c) => ({
             name: c.name,
             showLogo: c.showLogo,
             logo: c.logo,
@@ -123,11 +139,11 @@ export default async function HomePage() {
       </section>
 
       <ContactCTA
-        hotlineLabel={settings.hotlineLabel || undefined}
-        hotline={settings.hotline || undefined}
-        zalo={settings.zalo || undefined}
-        zaloUrl={settings.zaloUrl || undefined}
-        email={settings.email || undefined}
+        hotlineLabel={settings?.hotlineLabel || undefined}
+        hotline={settings?.hotline || undefined}
+        zalo={settings?.zalo || undefined}
+        zaloUrl={settings?.zaloUrl || undefined}
+        email={settings?.email || undefined}
       />
     </>
   )

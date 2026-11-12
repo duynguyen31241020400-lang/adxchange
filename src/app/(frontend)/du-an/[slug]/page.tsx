@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ContactCTA } from '@/components/ContactCTA'
-import { ProjectCard } from '@/components/ProjectCard'
+import { CoverParallax } from '@/components/CoverParallax'
 import { GalleryLightbox } from '@/components/GalleryLightbox'
 import { RichText } from '@/components/RichText'
 import {
@@ -20,13 +20,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const project = await getProjectBySlug(slug)
   if (!project) return {}
   const title = `${project.name} | ADX`.slice(0, 60)
-  const description =
-    project.clientLabel
+  const summary = (project as { summary?: string | null }).summary
+  const description = (
+    summary ||
+    (project.clientLabel
       ? `Dự án ${project.name} cho ${project.clientLabel} — ADX thực hiện tại TP.HCM.`
-      : `Dự án ${project.name} — ADX, quảng cáo ngoài trời tại TP.HCM.`
+      : `Dự án ${project.name} — ADX, quảng cáo ngoài trời tại TP.HCM.`)
+  ).slice(0, 160)
   return pageMeta({
     title,
-    description: description.slice(0, 160),
+    description,
     path: `/du-an/${slug}`,
     image: `/og/${slug}.jpg`,
   })
@@ -34,28 +37,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const [project, settings] = await Promise.all([getProjectBySlug(slug), getSiteSettings()])
+  const [project, settings, all] = await Promise.all([
+    getProjectBySlug(slug),
+    getSiteSettings(),
+    getPublishedProjects({ limit: 50 }),
+  ])
   if (!project) notFound()
 
-  const serviceIds = Array.isArray(project.services)
-    ? project.services.map((s) => (typeof s === 'object' && s ? s.id : s))
-    : []
-  const all = await getPublishedProjects({ limit: 20 })
-  const related = all.docs
-    .filter((p) => p.slug !== project.slug)
-    .filter((p) =>
-      Array.isArray(p.services)
-        ? p.services.some((s) => typeof s === 'object' && s && serviceIds.includes(s.id))
-        : false,
-    )
-    .slice(0, 2)
-  const relatedFinal =
-    related.length >= 2
-      ? related
-      : [...related, ...all.docs.filter((p) => p.slug !== project.slug && !related.find((r) => r.id === p.id))].slice(
-          0,
-          2,
-        )
+  const ordered = all.docs
+  const idx = ordered.findIndex((p) => p.slug === project.slug)
+  const next = ordered[(idx >= 0 ? idx + 1 : 0) % ordered.length]
+  const nextProject = next && next.slug !== project.slug ? next : ordered.find((p) => p.slug !== project.slug)
 
   const cover = mediaUrl(project.coverImage)
   const gallery = (project.gallery || [])
@@ -64,6 +56,12 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       alt: mediaAlt(g.image, project.name || ''),
     }))
     .filter((g): g is { src: string; alt: string } => Boolean(g.src))
+
+  const services = (Array.isArray(project.services) ? project.services : []).flatMap((s) =>
+    typeof s === 'object' && s && 'id' in s
+      ? [{ id: s.id, slug: s.slug, name: s.name }]
+      : [],
+  )
 
   return (
     <>
@@ -82,69 +80,72 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
             creator: { '@type': 'Organization', name: 'ADX' },
             dateCreated: project.year ? String(project.year) : undefined,
             image: cover || undefined,
+            description: (project as { summary?: string | null }).summary || undefined,
           },
         ])}
       />
 
-      <div className="relative h-[80svh] bg-[var(--dark)]">
-        {cover ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={cover}
-            alt={mediaAlt(project.coverImage, project.name || '')}
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          <div className="flex h-full items-end p-8">
-            <span className="text-h1 !text-white">{project.name}</span>
-          </div>
-        )}
-        {/* Uniform dim overlay (photo + ~40% black) so white hero text stays readable */}
-        <div className="absolute inset-0 bg-black/40" aria-hidden />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" aria-hidden />
-        <div className="container absolute inset-x-0 bottom-0 pb-10">
-          <Link href="/du-an" className="text-small !text-white/80">
+      <header className="section-ruby">
+        <div className="container pt-28 pb-12">
+          <Link href="/du-an" className="text-small !text-white/75 underline underline-offset-4">
             ← Dự án
           </Link>
-          <h1 className="text-h1 mt-4 !text-white">{project.name}</h1>
+          <h1 className="text-display mt-6">{project.name}</h1>
+          <div className="mt-10 flex flex-wrap gap-x-0 border-t border-[var(--line-on-ruby)]">
+            {project.clientLabel ? (
+              <div className="min-w-[160px] flex-1 border-b border-[var(--line-on-ruby)] py-4 md:border-r md:pr-6">
+                <p className="text-small !text-white/65">Khách hàng</p>
+                <p className="mt-1">{project.clientLabel}</p>
+              </div>
+            ) : null}
+            {project.year ? (
+              <div className="min-w-[120px] flex-1 border-b border-[var(--line-on-ruby)] py-4 md:border-r md:px-6">
+                <p className="text-small !text-white/65">Năm</p>
+                <p className="mt-1">{project.year}</p>
+              </div>
+            ) : null}
+            {services.length ? (
+              <div className="min-w-[180px] flex-[1.4] border-b border-[var(--line-on-ruby)] py-4 md:pl-6">
+                <p className="text-small !text-white/65">Dịch vụ</p>
+                <p className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
+                  {services.map((s) => (
+                    <Link key={s.id} href={`/dich-vu/${s.slug}`} className="underline underline-offset-4">
+                      {s.name}
+                    </Link>
+                  ))}
+                </p>
+              </div>
+            ) : null}
+          </div>
         </div>
-      </div>
+      </header>
 
-      <div className="container py-10">
-        <div className="flex flex-wrap gap-x-6 gap-y-2 border-y border-[var(--line)] py-4 text-small">
-          {project.clientLabel ? <span>Khách hàng · {project.clientLabel}</span> : null}
-          {project.year ? <span>Năm · {project.year}</span> : null}
-          {Array.isArray(project.services) &&
-            project.services.map((s) =>
-              typeof s === 'object' && s ? (
-                <Link key={s.id} href={`/dich-vu/${s.slug}`} className="underline">
-                  {s.name}
-                </Link>
-              ) : null,
-            )}
-        </div>
+      {cover ? (
+        <CoverParallax src={cover} alt={mediaAlt(project.coverImage, project.name || '')} />
+      ) : null}
 
-        <div className="mt-12 space-y-12">
+      <div className="section-white">
+        <div className="container space-y-16 py-16 md:py-24">
           <section className="grid gap-6 md:grid-cols-12">
-            <h2 className="text-small md:col-span-3">Bối cảnh</h2>
-            <div className="md:col-span-7">
+            <h2 className="text-small !text-[var(--ruby)] md:col-span-3">Bối cảnh</h2>
+            <div className="text-body-ink md:col-span-7">
               <RichText data={project.context} />
             </div>
           </section>
           <section className="grid gap-6 md:grid-cols-12">
-            <h2 className="text-small md:col-span-3">Cách làm</h2>
-            <div className="md:col-span-7">
+            <h2 className="text-small !text-[var(--ruby)] md:col-span-3">Cách làm</h2>
+            <div className="text-body-ink md:col-span-7">
               <RichText data={project.approach} />
             </div>
           </section>
           <section className="grid gap-6 md:grid-cols-12">
-            <h2 className="text-small md:col-span-3">Kết quả</h2>
-            <div className="md:col-span-7">
+            <h2 className="text-small !text-[var(--ruby)] md:col-span-3">Kết quả</h2>
+            <div className="text-body-ink md:col-span-7">
               {project.results?.length ? (
                 <div className="grid gap-6 sm:grid-cols-2">
                   {project.results.map((r, i) => (
                     <div key={i}>
-                      <p className="text-stat">{r.value}</p>
+                      <p className="text-stat !text-[var(--ruby)]">{r.value}</p>
                       <p className="text-small mt-2">{r.label}</p>
                     </div>
                   ))}
@@ -154,44 +155,33 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
               )}
             </div>
           </section>
+
+          {project.videoUrl ? (
+            <a href={project.videoUrl} target="_blank" rel="noopener noreferrer" className="btn">
+              Xem video <span className="btn-arrow">→</span>
+            </a>
+          ) : null}
+
+          {gallery.length ? <GalleryLightbox images={gallery} /> : null}
         </div>
-
-        {project.videoUrl ? (
-          <a
-            href={project.videoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn mt-10"
-          >
-            Xem video →
-          </a>
-        ) : null}
-
-        {gallery.length ? (
-          <div className="mt-16">
-            <GalleryLightbox images={gallery} />
-          </div>
-        ) : null}
-
-        {relatedFinal.length ? (
-          <div className="mt-20">
-            <h2 className="text-h2">Dự án khác</h2>
-            <div className="mt-8 grid gap-10 md:grid-cols-2">
-              {relatedFinal.map((p, i) => (
-                <ProjectCard key={p.id} project={p} index={i + 1} aspect="4/3" />
-              ))}
-            </div>
-          </div>
-        ) : null}
       </div>
 
-      <ContactCTA
-        hotlineLabel={settings.hotlineLabel || undefined}
-        hotline={settings.hotline || undefined}
-        zalo={settings.zalo || undefined}
-        zaloUrl={settings.zaloUrl || undefined}
-        email={settings.email || undefined}
-      />
+      {nextProject ? (
+        <section className="section-ruby">
+          <div className="container flex min-h-[70svh] flex-col justify-center py-20">
+            <p className="text-index !text-white/60">Dự án tiếp theo</p>
+            <h2 className="text-display mt-6">{nextProject.name}</h2>
+            <Link href={`/du-an/${nextProject.slug}`} className="btn btn-on-ruby mt-10 w-fit">
+              Xem dự án tiếp <span className="btn-arrow">→</span>
+            </Link>
+          </div>
+        </section>
+      ) : (
+        <ContactCTA
+          hotlineLabel={settings.hotlineLabel || undefined}
+          hotline={settings.hotline || undefined}
+        />
+      )}
     </>
   )
 }
