@@ -60,5 +60,17 @@ export const SiteSettings: GlobalConfig = {
       label: 'Hồ sơ năng lực',
     },
     { name: 'heroSubline', type: 'text', label: 'Dòng phụ hero' },
+    {
+      name: 'heroVideo',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Video hero (tùy chọn)',
+      admin: {
+        description: 'Video dưới 15 giây, đã nén. mp4/webm, tối đa 15MB.',
+      },
+      filterOptions: {
+        mimeType: { in: ['video/mp4', 'video/webm'] },
+      },
+    },
   ],
 }
