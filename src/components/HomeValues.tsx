@@ -40,7 +40,7 @@ export function HomeValues({
         <h2 className="sr-only">Tầm nhìn</h2>
         <p className="text-h1 !text-[var(--ruby)]">
           {vision.split(' ').map((word, i) => (
-            <span key={`${word}-${i}`} className="inline-block overflow-hidden align-bottom">
+            <span key={`${word}-${i}`} className="mask-line">
               <span data-word className="inline-block pr-[0.25em]">
                 {word}
               </span>
