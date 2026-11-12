@@ -1,12 +1,11 @@
 import type { Metadata } from 'next'
-import { Anton, Barlow_Condensed, Be_Vietnam_Pro, Oswald } from 'next/font/google'
+import { Anton, Be_Vietnam_Pro } from 'next/font/google'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
-import { ThemeControls } from '@/components/ThemeControls'
 import { RevealInit } from '@/components/Reveal'
 import { CookieBanner } from '@/components/CookieBanner'
 import { Analytics } from '@/components/Analytics'
-import { getSiteSettings } from '@/lib/payload'
+import { getSiteSettings, mediaUrl } from '@/lib/payload'
 import './globals.css'
 
 /** CMS-backed chrome (header/footer); avoid Postgres during static prerender without DATABASE_URI. */
@@ -23,20 +22,6 @@ const anton = Anton({
   subsets: ['latin', 'vietnamese'],
   weight: '400',
   variable: '--font-anton',
-  display: 'swap',
-})
-
-const barlow = Barlow_Condensed({
-  subsets: ['latin', 'vietnamese'],
-  weight: ['700', '800'],
-  variable: '--font-barlow',
-  display: 'swap',
-})
-
-const oswald = Oswald({
-  subsets: ['latin', 'vietnamese'],
-  weight: ['600', '700'],
-  variable: '--font-oswald',
   display: 'swap',
 })
 
@@ -70,7 +55,6 @@ export const metadata: Metadata = {
     canonical: '/',
     languages: {
       vi: '/',
-      // en: '/en' — reserved for bilingual
     },
   },
 }
@@ -83,8 +67,10 @@ export default async function FrontendLayout({ children }: { children: React.Rea
     settings = null
   }
 
+  const capabilityHref = mediaUrl(settings?.capabilityFile) || undefined
+
   return (
-    <html lang="vi" data-theme="a" data-font="1" className={`${beVietnam.variable} ${anton.variable} ${barlow.variable} ${oswald.variable}`}>
+    <html lang="vi" className={`${beVietnam.variable} ${anton.variable}`}>
       <body>
         <Header hotlineDisplay={settings?.hotlineLabel || '0939 899 283'} />
         <main>{children}</main>
@@ -99,8 +85,9 @@ export default async function FrontendLayout({ children }: { children: React.Rea
           branchAddress={settings?.branchAddress || undefined}
           legalName={settings?.legalName || undefined}
           taxId={settings?.taxId || undefined}
+          social={(settings?.social || []).map((s) => ({ label: s.label || '', url: s.url || '' }))}
+          capabilityHref={capabilityHref}
         />
-        <ThemeControls />
         <RevealInit />
         <CookieBanner />
         <Analytics />

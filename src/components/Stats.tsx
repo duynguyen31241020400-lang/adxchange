@@ -44,20 +44,20 @@ export function Stats({ items }: { items: { value: string; label: string }[] }) 
   }, [])
 
   return (
-    <section className="bg-[var(--dark)] py-16 text-[var(--bg)]" ref={ref}>
+    <section className="section-ruby py-16" ref={ref}>
       <div className="container grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((item) => {
           const parsed = parseStat(item.value)
           return (
             <div key={item.label}>
               <p
-                className="text-stat !text-[var(--bg)]"
+                className="text-stat"
                 data-count={parsed.num ?? undefined}
                 data-suffix={parsed.num != null ? parsed.suffix : undefined}
               >
                 {item.value}
               </p>
-              <p className="mt-3 text-small !text-white/65">{item.label}</p>
+              <p className="mt-3 text-small !text-white/75">{item.label}</p>
             </div>
           )
         })}

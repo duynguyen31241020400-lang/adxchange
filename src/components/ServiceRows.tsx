@@ -55,29 +55,31 @@ export function ServiceRows({ services }: { services: ServiceLike[] }) {
       </div>
 
       <ul>
-        {services.map((s, i) => (
-          <li key={s.slug} className="border-t border-[var(--line)] last:border-b">
-            <Link
-              href={`/dich-vu/${s.slug}`}
-              className="group flex items-center justify-between gap-4 py-5 md:py-7"
-              onMouseEnter={() => setActive(s.slug || null)}
-              onMouseLeave={() => setActive(null)}
-            >
-              <span className="flex items-baseline gap-4 md:gap-8">
-                <span className="text-index">{String(s.order ?? i + 1).padStart(2, '0')}</span>
-                <span
-                  className="text-service transition-colors"
-                  style={{ color: active === s.slug ? 'var(--primary-text)' : undefined }}
-                >
-                  {s.name}
+        {services.map((s, i) => {
+          const on = active === s.slug
+          return (
+            <li key={s.slug} className="border-t border-[var(--line)] last:border-b">
+              <Link
+                href={`/dich-vu/${s.slug}`}
+                className={`group flex items-center justify-between gap-4 py-5 transition-colors md:py-7 ${
+                  on ? 'bg-[var(--ruby)] px-3 text-[var(--white)] md:px-4' : 'text-[var(--ruby)]'
+                }`}
+                onMouseEnter={() => setActive(s.slug || null)}
+                onMouseLeave={() => setActive(null)}
+              >
+                <span className="flex items-baseline gap-4 md:gap-8">
+                  <span className={`text-index ${on ? '!text-white/60' : ''}`}>
+                    {String(s.order ?? i + 1).padStart(2, '0')}
+                  </span>
+                  <span className="text-service">{s.name}</span>
                 </span>
-              </span>
-              <span aria-hidden="true" className="text-h3">
-                →
-              </span>
-            </Link>
-          </li>
-        ))}
+                <span aria-hidden="true" className="text-h3">
+                  →
+                </span>
+              </Link>
+            </li>
+          )
+        })}
       </ul>
     </div>
   )

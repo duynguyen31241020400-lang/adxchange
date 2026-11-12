@@ -1,11 +1,21 @@
-import Link from 'next/link'
 import { Hero } from '@/components/Hero'
-import { ProjectCard } from '@/components/ProjectCard'
+import { IntroTrivision } from '@/components/IntroTrivision'
+import { HomeValues } from '@/components/HomeValues'
+import { ProjectGate } from '@/components/ProjectGate'
 import { ServiceRows } from '@/components/ServiceRows'
+import { FieldStrip } from '@/components/FieldStrip'
 import { Stats } from '@/components/Stats'
 import { ClientMarquee } from '@/components/ClientMarquee'
 import { ContactCTA } from '@/components/ContactCTA'
-import { getClients, getPublishedProjects, getServices, getSiteSettings, mediaUrl } from '@/lib/payload'
+import {
+  getAbout,
+  getClients,
+  getPublishedProjects,
+  getServices,
+  getSiteSettings,
+  mediaAlt,
+  mediaUrl,
+} from '@/lib/payload'
 import { jsonLd, orgSchema, pageMeta } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
@@ -19,11 +29,13 @@ export const metadata = pageMeta({
 })
 
 export default async function HomePage() {
-  const [settings, projects, services, clients] = await Promise.all([
+  const [settings, projects, allProjects, services, clients, about] = await Promise.all([
     getSiteSettings(),
-    getPublishedProjects({ featured: true, limit: 5 }),
+    getPublishedProjects({ featured: true, limit: 7 }),
+    getPublishedProjects({ limit: 50 }),
     getServices(),
     getClients(),
+    getAbout(),
   ])
 
   const featured = projects.docs
@@ -39,12 +51,25 @@ export default async function HomePage() {
     }
   })
 
+  const firstBanner = mediaUrl(settings.heroBanners?.[0]?.image)
+  const videoUrl = mediaUrl(settings.heroVideo)
+  const fieldImages = featured
+    .flatMap((p) => {
+      const gallery = Array.isArray(p.gallery) ? p.gallery : []
+      return gallery
+        .map((g) => {
+          const src = mediaUrl(g.image)
+          if (!src) return null
+          return { src, alt: mediaAlt(g.image, p.name || '') }
+        })
+        .filter(Boolean) as { src: string; alt: string }[]
+    })
+    .slice(0, 10)
+
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLd(orgSchema(settings))}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(orgSchema(settings))} />
+      <IntroTrivision bannerSrc={firstBanner} />
       <Hero
         slogan={settings.slogan || 'ADX. Không thể không thấy.'}
         subline={settings.heroSubline}
@@ -52,45 +77,33 @@ export default async function HomePage() {
           caption: b.caption,
           image: b.image,
         }))}
+        videoUrl={videoUrl}
       />
 
-      <section className="container py-20">
-        <h2 className="text-h2 reveal-line">Dự án</h2>
-        <div className="mt-10 hidden gap-8 lg:grid lg:grid-cols-12">
-          {featured[0] ? (
-            <div className="col-span-7">
-              <ProjectCard project={featured[0]} index={1} aspect="4/5" />
-            </div>
-          ) : null}
-          <div className="col-span-5 mt-[120px] flex flex-col gap-10">
-            {featured[1] ? <ProjectCard project={featured[1]} index={2} aspect="4/3" /> : null}
-            {featured[2] ? <ProjectCard project={featured[2]} index={3} aspect="4/3" /> : null}
+      <HomeValues
+        vision={about.vision || 'Làm thương hiệu được nhìn thấy.'}
+        values={(about.values || []).map((v) => ({ title: v.title, description: v.description }))}
+      />
+
+      <ProjectGate
+        totalCount={allProjects.docs.length}
+        projects={featured.map((p) => ({
+          name: p.name,
+          clientLabel: p.clientLabel,
+          coverUrl: mediaUrl(p.coverImage),
+        }))}
+      />
+
+      <section className="section-white">
+        <div className="container py-20">
+          <h2 className="text-h2 reveal-line !text-[var(--ruby)]">Dịch vụ</h2>
+          <div className="mt-10">
+            <ServiceRows services={serviceRows} />
           </div>
-          {featured[3] ? (
-            <div className="col-span-5">
-              <ProjectCard project={featured[3]} index={4} aspect="4/5" />
-            </div>
-          ) : null}
-          {featured[4] ? (
-            <div className="col-span-6 col-start-7">
-              <ProjectCard project={featured[4]} index={5} aspect="4/3" />
-            </div>
-          ) : null}
         </div>
-        <div className="mt-10 grid gap-10 lg:hidden">
-          {featured.map((p, i) => (
-            <ProjectCard key={p.id} project={p} index={i + 1} aspect="4/5" />
-          ))}
-        </div>
-        <Link href="/du-an" className="link-underline mt-10 inline-block">
-          Tất cả dự án →
-        </Link>
       </section>
 
-      <section className="container py-10">
-        <h2 className="text-h2 reveal-line mb-8">Dịch vụ</h2>
-        <ServiceRows services={serviceRows} />
-      </section>
+      <FieldStrip images={fieldImages} />
 
       <Stats
         items={(settings.stats || []).map((s) => ({
@@ -99,13 +112,15 @@ export default async function HomePage() {
         }))}
       />
 
-      <ClientMarquee
-        clients={clients.docs.map((c) => ({
-          name: c.name,
-          showLogo: c.showLogo,
-          logo: c.logo,
-        }))}
-      />
+      <section className="section-white py-16">
+        <ClientMarquee
+          clients={clients.docs.map((c) => ({
+            name: c.name,
+            showLogo: c.showLogo,
+            logo: c.logo,
+          }))}
+        />
+      </section>
 
       <ContactCTA
         hotlineLabel={settings.hotlineLabel || undefined}

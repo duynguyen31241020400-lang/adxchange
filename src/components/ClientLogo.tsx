@@ -17,7 +17,7 @@ export function ClientLogo({ name, src, className }: ClientLogoProps) {
   if (!clientLogoNeedsDarkChip(name)) return img
 
   return (
-    <span className="client-logo-dark-chip inline-flex items-center rounded-sm bg-[var(--dark)] px-2 py-1.5">
+    <span className="client-logo-dark-chip inline-flex items-center rounded-sm bg-[var(--ruby-deep)] px-2 py-1.5">
       {img}
     </span>
   )

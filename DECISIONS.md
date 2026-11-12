@@ -12,7 +12,7 @@ Các lựa chọn khi brief không nói rõ, hoặc môi trường buộc phải
 - Brief: Next.js 15. Payload `3.93.0` peer range loại Next `15.5.x`, nên pin `next@15.4.11` (vẫn là Next 15 App Router).
 - Local Postgres (apt) thay Docker/Neon khi chưa có `DATABASE_URI` production.
 - Media: local disk khi thiếu R2; bật `@payloadcms/storage-s3` khi đủ biến `R2_*`.
-- Netlify không giữ `media/` (gitignore + filesystem function tạm). Khi chưa có R2: mirror seed vào `public/media/file/` + rewrite URL `/api/media/file` → `/media/file` (`pnpm publish-media`). R2 vẫn là hướng production đúng.
+- Netlify không giữ `media/` (gitignore + filesystem function tạm). Khi chưa có R2: mirror seed vào `public/media/file/` (`pnpm publish-media`). Payload vẫn resolve `url` thành `/api/media/file/...` lúc đọc → `mediaUrl()` + `src/middleware.ts` rewrite sang `/media/file/...`. R2 vẫn là hướng production đúng.
 
 ## Nội dung / ảnh
 
@@ -77,3 +77,12 @@ After host is live: set `NEXT_PUBLIC_SITE_URL` to the HTTPS origin, run `pnpm se
 
 - Local Next (`127.0.0.1:3000`) + **cloudflared quick tunnel** (tmux `adx-ui-tunnel`) — keep running until replaced.
 - URL at last check: `https://arms-suffering-console-subscriber.trycloudflare.com` (ephemeral; may rotate if tunnel restarts).
+
+## UI v3 (ruby / trắng)
+
+- Branch agent: `cursor/ui-v3-a595` (cloud prefix); brief gọi `ui-v3`.
+- Bỏ theme A/B/C + ThemeControls + Barlow/Oswald + `/dev/font-check`. Chỉ Anton + Be Vietnam Pro.
+- Token `--muted` brief `#9A8A8D` (~3.3:1 trên trắng) → `#6B5A5D` (≥4.5:1). Ruby/trắng ~7.76:1.
+- Không gradient trang trí; hero chỉ dùng lớp đen 40% để chữ đọc được trên ảnh.
+- `projects.summary` bắt buộc (≤180). `siteSettings.heroVideo` upload tùy chọn mp4/webm.
+- Media API rewrite giữ từ PR media-url (`mediaUrl` + middleware).
