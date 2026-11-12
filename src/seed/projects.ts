@@ -11,7 +11,7 @@ export const projectsSeed = [
   {
     order: 1,
     slug: 'ooh-led-nguyen-kim-dai-le-30-4',
-    name: 'OOH LED Đại lễ 30/4',
+    name: 'OOH LED Đại lễ 30/4/2025',
     clientLabel: 'Nguyễn Kim',
     clientNames: ['Nguyễn Kim'],
     year: 2025,
