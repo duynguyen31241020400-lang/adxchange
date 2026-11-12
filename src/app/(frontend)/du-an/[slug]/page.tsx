@@ -15,6 +15,23 @@ import { breadcrumbSchema, jsonLd, pageMeta } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
 
+/** Plain text of a Lexical value (or a string) — used to hide unfilled "[...]" placeholders. */
+function plainText(value: unknown): string {
+  if (!value) return ''
+  if (typeof value === 'string') return value
+  const walk = (node: unknown): string => {
+    if (!node || typeof node !== 'object') return ''
+    const n = node as { text?: string; children?: unknown[]; root?: unknown }
+    if (n.root) return walk(n.root)
+    return (n.text || '') + (Array.isArray(n.children) ? n.children.map(walk).join(' ') : '')
+  }
+  return walk(value).trim()
+}
+const filled = (value: unknown) => {
+  const t = plainText(value)
+  return t.length > 0 && !/^\[[^\]]*\]$/.test(t)
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const project = await getProjectBySlug(slug)
@@ -50,6 +67,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   const nextProject = next && next.slug !== project.slug ? next : ordered.find((p) => p.slug !== project.slug)
 
   const cover = mediaUrl(project.coverImage)
+  const summary = (project as { summary?: string | null }).summary || ''
   const gallery = (project.gallery || [])
     .map((g) => ({
       src: mediaUrl(g.image),
@@ -126,35 +144,46 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
       <div className="section-white">
         <div className="container space-y-16 py-16 md:py-24">
-          <section className="grid gap-6 md:grid-cols-12">
-            <h2 className="text-small !text-[var(--ruby)] md:col-span-3">Bối cảnh</h2>
-            <div className="text-body-ink md:col-span-7">
-              <RichText data={project.context} />
-            </div>
-          </section>
-          <section className="grid gap-6 md:grid-cols-12">
-            <h2 className="text-small !text-[var(--ruby)] md:col-span-3">Cách làm</h2>
-            <div className="text-body-ink md:col-span-7">
-              <RichText data={project.approach} />
-            </div>
-          </section>
-          <section className="grid gap-6 md:grid-cols-12">
-            <h2 className="text-small !text-[var(--ruby)] md:col-span-3">Kết quả</h2>
-            <div className="text-body-ink md:col-span-7">
-              {project.results?.length ? (
-                <div className="grid gap-6 sm:grid-cols-2">
-                  {project.results.map((r, i) => (
-                    <div key={i}>
-                      <p className="text-stat !text-[var(--ruby)]">{r.value}</p>
-                      <p className="text-small mt-2">{r.label}</p>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p>{project.resultText}</p>
-              )}
-            </div>
-          </section>
+          {filled(summary) ? (
+            <p className="text-h3 max-w-4xl !normal-case !font-[family-name:var(--font-body-family)] !text-[clamp(22px,2.4vw,32px)] !leading-snug !text-[var(--ink)]">
+              {summary}
+            </p>
+          ) : null}
+          {filled(project.context) && plainText(project.context) !== summary ? (
+            <section className="grid gap-6 md:grid-cols-12">
+              <h2 className="text-small !text-[var(--ruby)] md:col-span-3">Bối cảnh</h2>
+              <div className="text-body-ink md:col-span-7">
+                <RichText data={project.context} />
+              </div>
+            </section>
+          ) : null}
+          {filled(project.approach) ? (
+            <section className="grid gap-6 md:grid-cols-12">
+              <h2 className="text-small !text-[var(--ruby)] md:col-span-3">Cách làm</h2>
+              <div className="text-body-ink md:col-span-7">
+                <RichText data={project.approach} />
+              </div>
+            </section>
+          ) : null}
+          {project.results?.length || filled(project.resultText) ? (
+            <section className="grid gap-6 md:grid-cols-12">
+              <h2 className="text-small !text-[var(--ruby)] md:col-span-3">Kết quả</h2>
+              <div className="text-body-ink md:col-span-7">
+                {project.results?.length ? (
+                  <div className="grid gap-6 sm:grid-cols-2">
+                    {project.results.map((r, i) => (
+                      <div key={i}>
+                        <p className="text-stat !text-[var(--ruby)]">{r.value}</p>
+                        <p className="text-small mt-2">{r.label}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p>{project.resultText}</p>
+                )}
+              </div>
+            </section>
+          ) : null}
 
           {project.videoUrl ? (
             <a href={project.videoUrl} target="_blank" rel="noopener noreferrer" className="btn">

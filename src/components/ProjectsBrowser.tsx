@@ -1,15 +1,15 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { FilmReel, type FilmProject } from './FilmReel'
+import { ProjectCredits, type CreditProject } from './ProjectCredits'
 import { ProjectFilters } from './ProjectFilters'
 import { ProjectListRows } from './ProjectListRows'
 
-export type BrowserProject = FilmProject & { serviceSlugs: string[] }
+export type BrowserProject = CreditProject & { serviceSlugs: string[] }
 
 /**
- * G.7 — client-side filter for /du-an. The filter bar stays sticky over both the
- * film reel and the "Tất cả dự án" list, and keeps `?dich-vu=` in the URL.
+ * Client-side filter for /du-an. The filter bar stays sticky over both the
+ * credits roll and the "Tất cả dự án" list, and keeps `?dich-vu=` in the URL.
  */
 export function ProjectsBrowser({
   projects,
@@ -63,7 +63,7 @@ export function ProjectsBrowser({
           <ProjectFilters services={services} active={active} counts={counts} total={projects.length} onSelect={select} />
         </div>
       </div>
-      <FilmReel key={active || 'all'} projects={filtered} />
+      <ProjectCredits key={active || 'all'} projects={filtered} />
       <ProjectListRows projects={filtered} />
     </div>
   )

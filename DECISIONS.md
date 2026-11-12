@@ -97,3 +97,11 @@ After host is live: set `NEXT_PUBLIC_SITE_URL` to the HTTPS origin, run `pnpm se
 - **Lọc dự án:** lọc phía client (không tải lại trang), URL `?dich-vu=` cập nhật bằng `history.replaceState`; link lọc vẫn là `<a href>` thật cho no-JS và SEO.
 - **Chữ nhỏ màu trắng mờ trên nền ruby:** nâng tối thiểu lên `white/80` để đạt tương phản 4.5:1 (`white/60`–`/70` chỉ đạt ~3.7–4.3:1).
 - **Ảnh chụp kiểm tra `screenshots/v3/`:** chỉ lưu local, không commit (~20MB).
+
+## Đợt sửa theo phản hồi August (2026-11-13, tối)
+
+- **Trang `/du-an` đổi sang kiểu credit cuối phim** (theo yêu cầu August, thay cuộn phim ngang của G.7): dự án xếp so le trái/phải cuộn lên tự nhiên, cột phải trôi nhanh hơn, bộ đếm `02 / 07` dính giữa màn hình. Không ghim cuộn.
+- **Mất dấu tiếng Việt:** do khung `overflow-hidden` của hiệu ứng chữ, `clip-path` của `.reveal-line` và `line-height` < 1 với Anton. Đã nới khung cắt và tăng `line-height` tiêu đề.
+- **Trang chi tiết dự án:** ẩn các mục chỉ chứa placeholder `[...]`. Câu tóm tắt hiện làm đoạn mở đầu.
+- **Dữ liệu (DB Neon, theo yêu cầu August "input các dự án"):** Nestea summary lấy từ bảng Drive. "Chuyện Nhà" dùng ảnh `livestream-studio.png` (Drive / Ảnh khác) làm ảnh bìa, alt ghi rõ là studio của ADX. Script: `src/seed/update-projects-2026-11.ts`.
+- **Cần August xác nhận:** ảnh thư mục "Activation Tràng Thi" (đang gán cho "Khai trương TopZone") có biển Nguyễn Kim và đoàn diễu hành, nhiều khả năng là dự án Nguyễn Kim chứ không phải TopZone.

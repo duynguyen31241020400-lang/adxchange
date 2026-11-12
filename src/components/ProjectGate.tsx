@@ -38,7 +38,7 @@ export function ProjectGate({ projects, totalCount }: { projects: Project[]; tot
       <div className="container relative py-24 md:py-32">
         <Link href="/du-an" className="block" aria-label="Xem tất cả dự án">
           <span
-            className={`text-display block text-center ${clipOk ? 'giant-clip-text' : '!text-white'}`}
+            className={`text-display block py-[0.1em] text-center ${clipOk && active?.coverUrl ? 'giant-clip-text' : '!text-white'}`}
             style={
               clipOk && active?.coverUrl
                 ? { backgroundImage: `url(${active.coverUrl})` }

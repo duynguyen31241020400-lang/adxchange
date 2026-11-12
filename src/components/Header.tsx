@@ -111,7 +111,7 @@ export function Header({ hotlineDisplay = '0939 899 283' }: { hotlineDisplay?: s
           aria-modal="true"
           aria-label="Menu"
         >
-          <nav className="container flex flex-1 flex-col justify-center gap-2 pb-10">
+          <nav className="container flex flex-1 flex-col justify-center gap-1 pb-10">
             {nav.map((item, i) => {
               const active =
                 item.href === '/'
@@ -127,8 +127,8 @@ export function Header({ hotlineDisplay = '0939 899 283' }: { hotlineDisplay?: s
                 >
                   <span className="text-index !text-white/80">{item.number}</span>
                   <span
-                    className={`text-display !text-[clamp(42px,10vw,120px)] ${
-                      active ? 'underline decoration-2 underline-offset-8' : ''
+                    className={`text-display !text-[clamp(40px,9vw,112px)] !leading-[1.12] ${
+                      active ? 'underline decoration-2 underline-offset-[0.18em]' : ''
                     }`}
                   >
                     {item.label}
