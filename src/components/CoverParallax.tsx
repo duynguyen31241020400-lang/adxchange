@@ -35,7 +35,7 @@ export function CoverParallax({ src, alt }: { src: string; alt: string }) {
   return (
     <div ref={wrapRef} className="relative h-[70svh] overflow-hidden bg-[var(--ruby-deep)] md:h-[80svh]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img ref={imgRef} src={src} alt={alt} className="h-[calc(100%+60px)] w-full object-cover" />
+      <img ref={imgRef} src={src} alt={alt} fetchPriority="high" className="absolute inset-x-0 -top-[30px] h-[calc(100%+60px)] w-full object-cover" />
     </div>
   )
 }

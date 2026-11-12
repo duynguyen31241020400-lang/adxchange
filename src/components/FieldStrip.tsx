@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@/lib/useGSAP'
@@ -17,26 +17,24 @@ export function FieldStrip({ images }: { images: { src: string; alt: string }[] 
     if (!section || !track || images.length === 0) return
     if (window.matchMedia('(max-width: 768px)').matches) return
 
-    const amount = Math.max(0, track.scrollWidth - section.clientWidth)
-    gsap.to(track, {
-      x: -amount,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: section,
-        start: 'top top',
-        end: () => `+=${amount}`,
-        scrub: true,
-        pin: true,
-        anticipatePin: 1,
+    // G.4.5: no pin — the strip slides sideways while the section passes
+    // through the viewport, so it never holds the page.
+    gsap.fromTo(
+      track,
+      { x: 0 },
+      {
+        x: () => -Math.max(0, track.scrollWidth - section.clientWidth),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
       },
-    })
+    )
   }, [images.length])
-
-  useEffect(() => {
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill())
-    }
-  }, [])
 
   if (!images.length) return null
 
@@ -52,7 +50,7 @@ export function FieldStrip({ images }: { images: { src: string; alt: string }[] 
         {images.map((img) => (
           <div
             key={img.src}
-            className="relative h-[46vh] w-[72vw] shrink-0 snap-center overflow-hidden md:h-[70vh] md:w-[42vw]"
+            className="relative h-[46vh] w-[72vw] shrink-0 snap-center overflow-hidden md:h-[60vh] md:w-[34vw]"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={img.src} alt={img.alt} className="h-full w-full object-cover" />

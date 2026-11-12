@@ -92,18 +92,25 @@ export function Hero({
         </Link>
 
         {!videoUrl && banners.length > 1 ? (
-          <div className="mt-8 flex gap-2" role="tablist" aria-label="Banner">
+          <div className="-ml-2 mt-6 flex" role="group" aria-label="Banner">
             {banners.map((_, i) => (
               <button
                 key={i}
                 type="button"
-                role="tab"
-                aria-selected={i === index}
+                aria-pressed={i === index}
                 aria-label={`Banner ${i + 1}`}
-                className="h-2 w-2"
-                style={{ background: i === index ? '#fff' : 'rgba(255,255,255,0.4)' }}
+                className="grid h-8 w-8 place-items-center"
                 onClick={() => setIndex(i)}
-              />
+              >
+                <span
+                  aria-hidden="true"
+                  className="block h-2 transition-all"
+                  style={{
+                    width: i === index ? 24 : 8,
+                    background: i === index ? '#fff' : 'rgba(255,255,255,0.5)',
+                  }}
+                />
+              </button>
             ))}
           </div>
         ) : null}

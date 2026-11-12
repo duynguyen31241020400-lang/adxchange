@@ -94,19 +94,19 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           <div className="mt-10 flex flex-wrap gap-x-0 border-t border-[var(--line-on-ruby)]">
             {project.clientLabel ? (
               <div className="min-w-[160px] flex-1 border-b border-[var(--line-on-ruby)] py-4 md:border-r md:pr-6">
-                <p className="text-small !text-white/65">Khách hàng</p>
+                <p className="text-small !text-white/80">Khách hàng</p>
                 <p className="mt-1">{project.clientLabel}</p>
               </div>
             ) : null}
             {project.year ? (
               <div className="min-w-[120px] flex-1 border-b border-[var(--line-on-ruby)] py-4 md:border-r md:px-6">
-                <p className="text-small !text-white/65">Năm</p>
+                <p className="text-small !text-white/80">Năm</p>
                 <p className="mt-1">{project.year}</p>
               </div>
             ) : null}
             {services.length ? (
               <div className="min-w-[180px] flex-[1.4] border-b border-[var(--line-on-ruby)] py-4 md:pl-6">
-                <p className="text-small !text-white/65">Dịch vụ</p>
+                <p className="text-small !text-white/80">Dịch vụ</p>
                 <p className="mt-1 flex flex-wrap gap-x-3 gap-y-1">
                   {services.map((s) => (
                     <Link key={s.id} href={`/dich-vu/${s.slug}`} className="underline underline-offset-4">
@@ -168,9 +168,11 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
       {nextProject ? (
         <section className="section-ruby">
-          <div className="container flex min-h-[70svh] flex-col justify-center py-20">
-            <p className="text-index !text-white/60">Dự án tiếp theo</p>
-            <h2 className="text-display mt-6">{nextProject.name}</h2>
+          <div className="container flex min-h-[100svh] flex-col justify-center py-20">
+            <p className="text-index !text-white/80">Dự án tiếp theo</p>
+            <h2 className="text-display mt-6">
+              <Link href={`/du-an/${nextProject.slug}`}>{nextProject.name}</Link>
+            </h2>
             <Link href={`/du-an/${nextProject.slug}`} className="btn btn-on-ruby mt-10 w-fit">
               Xem dự án tiếp <span className="btn-arrow">→</span>
             </Link>

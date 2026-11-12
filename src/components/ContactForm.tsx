@@ -18,7 +18,8 @@ export function ContactForm({
   const inputClass = onRuby ? 'input input-on-ruby' : 'input'
   const selectClass = onRuby ? 'select input-on-ruby' : 'select'
   const textareaClass = onRuby ? 'textarea input-on-ruby' : 'textarea'
-  const labelClass = onRuby ? 'mb-2 block text-small !text-white/75' : 'text-small mb-2 block'
+  const labelClass = onRuby ? 'mb-2 block text-small !text-white/80' : 'text-small mb-2 block'
+  const errorClass = onRuby ? 'mt-1 text-small font-semibold !text-white' : 'mt-1 text-small font-semibold !text-[var(--ruby)]'
 
   if (done) {
     return <p className="text-h3">Đã nhận. ADX gọi lại trong 24 giờ làm việc.</p>
@@ -38,10 +39,10 @@ export function ContactForm({
       <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" aria-hidden="true" />
       <input type="hidden" name="sourcePage" value="/lien-he" />
 
-      <Field label="Họ tên" name="name" required error={errors.name?.[0]} className={inputClass} labelClass={labelClass} />
-      <Field label="Số điện thoại" name="phone" required error={errors.phone?.[0]} className={inputClass} labelClass={labelClass} />
-      <Field label="Email" name="email" type="email" error={errors.email?.[0]} className={inputClass} labelClass={labelClass} />
-      <Field label="Công ty" name="company" error={errors.company?.[0]} className={inputClass} labelClass={labelClass} />
+      <Field label="Họ tên" name="name" required error={errors.name?.[0]} className={inputClass} labelClass={labelClass} errorClass={errorClass} />
+      <Field label="Số điện thoại" name="phone" required error={errors.phone?.[0]} className={inputClass} labelClass={labelClass} errorClass={errorClass} />
+      <Field label="Email" name="email" type="email" error={errors.email?.[0]} className={inputClass} labelClass={labelClass} errorClass={errorClass} />
+      <Field label="Công ty" name="company" error={errors.company?.[0]} className={inputClass} labelClass={labelClass} errorClass={errorClass} />
 
       <div>
         <label className={labelClass} htmlFor="serviceId">
@@ -74,7 +75,7 @@ export function ContactForm({
           .
         </span>
       </label>
-      {errors.consent?.[0] ? <p className="text-small text-white">{errors.consent[0]}</p> : null}
+      {errors.consent?.[0] ? <p className={errorClass} role="alert">{errors.consent[0]}</p> : null}
 
       <button type="submit" className={onRuby ? 'btn btn-on-ruby' : 'btn'} disabled={pending}>
         {pending ? 'Đang gửi…' : (
@@ -95,6 +96,7 @@ function Field({
   error,
   className,
   labelClass,
+  errorClass,
 }: {
   label: string
   name: string
@@ -103,6 +105,7 @@ function Field({
   error?: string
   className: string
   labelClass: string
+  errorClass: string
 }) {
   return (
     <div>
@@ -110,8 +113,20 @@ function Field({
         {label}
         {required ? ' *' : ''}
       </label>
-      <input id={name} name={name} type={type} className={className} required={required} placeholder="" />
-      {error ? <p className="text-small mt-1">{error}</p> : null}
+      <input
+        id={name}
+        name={name}
+        type={type}
+        className={className}
+        required={required}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? `${name}-error` : undefined}
+      />
+      {error ? (
+        <p id={`${name}-error`} className={errorClass} role="alert">
+          {error}
+        </p>
+      ) : null}
     </div>
   )
 }

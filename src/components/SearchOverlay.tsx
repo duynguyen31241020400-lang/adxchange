@@ -68,7 +68,7 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
     const parts = text.split(re)
     return parts.map((part, i) =>
       re.test(part) ? (
-        <mark key={i} className="bg-transparent font-semibold text-[var(--primary-text)]">
+        <mark key={i} className="bg-transparent font-semibold text-[var(--ruby)]">
           {part}
         </mark>
       ) : (
@@ -78,7 +78,7 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
   }
 
   return (
-    <div className="fixed inset-0 z-[70] bg-[var(--bg)]" role="dialog" aria-label="Tìm kiếm">
+    <div className="fixed inset-0 z-[70] overflow-y-auto bg-[var(--white)] text-[var(--ruby)]" role="dialog" aria-modal="true" aria-label="Tìm kiếm">
       <div className="container py-8">
         <div className="flex items-start justify-between gap-4">
           <input
@@ -103,12 +103,12 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
                 }
               }
             }}
-            className="text-h2 w-full border-0 bg-transparent outline-none"
+            className="text-h2 w-full border-0 border-b border-[var(--line)] bg-transparent pb-2 outline-none focus:border-[var(--ruby)]"
             placeholder=""
             aria-label="Từ khóa tìm kiếm"
             maxLength={80}
           />
-          <button type="button" className="text-h2" aria-label="Đóng" onClick={onClose}>
+          <button type="button" className="text-h2 grid h-12 w-12 shrink-0 place-items-center" aria-label="Đóng" onClick={onClose}>
             ×
           </button>
         </div>
@@ -127,15 +127,19 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
                       <li key={hit.id}>
                         <button
                           type="button"
-                          className="flex w-full items-center gap-3 border-t border-[var(--line)] py-3 text-left"
-                          style={{ background: idx === active ? 'var(--bg-alt)' : 'transparent' }}
+                          className="flex w-full items-center gap-3 border-t border-[var(--line)] py-3 pl-3 text-left"
+                          style={{
+                            background: idx === active ? 'rgba(165, 15, 45, 0.07)' : 'transparent',
+                            boxShadow: idx === active ? 'inset 3px 0 0 var(--ruby)' : undefined,
+                          }}
+                          aria-current={idx === active ? 'true' : undefined}
                           onMouseEnter={() => setActive(idx)}
                           onClick={() => {
                             router.push(hit.href)
                             onClose()
                           }}
                         >
-                          <div className="h-14 w-14 shrink-0 overflow-hidden bg-[var(--dark)]">
+                          <div className="h-14 w-14 shrink-0 overflow-hidden bg-[var(--ruby-deep)]">
                             {hit.imageUrl ? (
                               // eslint-disable-next-line @next/next/no-img-element
                               <img src={hit.imageUrl} alt="" className="h-full w-full object-cover" />

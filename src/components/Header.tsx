@@ -91,7 +91,7 @@ export function Header({ hotlineDisplay = '0939 899 283' }: { hotlineDisplay?: s
               aria-controls={menuId}
               onClick={() => setOpen((v) => !v)}
             >
-              <span className="hidden text-[13px] uppercase tracking-[0.12em] sm:inline">Menu</span>
+              <span className="text-[13px] uppercase tracking-[0.12em]">Menu</span>
               <span
                 className="grid h-10 w-10 place-items-center rounded-full border border-[var(--ruby)] text-lg leading-none"
                 aria-hidden="true"
@@ -106,13 +106,13 @@ export function Header({ hotlineDisplay = '0939 899 283' }: { hotlineDisplay?: s
       {open ? (
         <div
           id={menuId}
-          className="fixed inset-0 z-40 flex flex-col bg-[var(--ruby)] pt-24 text-[var(--white)]"
+          className="menu-panel fixed inset-0 z-40 flex flex-col overflow-y-auto bg-[var(--ruby)] pt-24 text-[var(--white)]"
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
         >
           <nav className="container flex flex-1 flex-col justify-center gap-2 pb-10">
-            {nav.map((item) => {
+            {nav.map((item, i) => {
               const active =
                 item.href === '/'
                   ? pathname === '/'
@@ -121,10 +121,11 @@ export function Header({ hotlineDisplay = '0939 899 283' }: { hotlineDisplay?: s
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="group flex items-baseline gap-4"
+                  className="menu-item group flex items-baseline gap-4"
+                  style={{ animationDelay: `${200 + i * 60}ms` }}
                   aria-current={active ? 'page' : undefined}
                 >
-                  <span className="text-index !text-white/55">{item.number}</span>
+                  <span className="text-index !text-white/80">{item.number}</span>
                   <span
                     className={`text-display !text-[clamp(42px,10vw,120px)] ${
                       active ? 'underline decoration-2 underline-offset-8' : ''

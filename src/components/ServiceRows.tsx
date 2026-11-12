@@ -61,14 +61,16 @@ export function ServiceRows({ services }: { services: ServiceLike[] }) {
             <li key={s.slug} className="border-t border-[var(--line)] last:border-b">
               <Link
                 href={`/dich-vu/${s.slug}`}
-                className={`group flex items-center justify-between gap-4 py-5 transition-colors md:py-7 ${
-                  on ? 'bg-[var(--ruby)] px-3 text-[var(--white)] md:px-4' : 'text-[var(--ruby)]'
+                className={`group -mx-3 flex items-center justify-between gap-4 px-3 py-5 transition-colors md:-mx-4 md:px-4 md:py-7 ${
+                  on ? 'bg-[var(--ruby)] text-[var(--white)]' : 'text-[var(--ruby)]'
                 }`}
                 onMouseEnter={() => setActive(s.slug || null)}
                 onMouseLeave={() => setActive(null)}
+                onFocus={() => setActive(s.slug || null)}
+                onBlur={() => setActive(null)}
               >
                 <span className="flex items-baseline gap-4 md:gap-8">
-                  <span className={`text-index ${on ? '!text-white/60' : ''}`}>
+                  <span className={`text-index ${on ? '!text-white/80' : ''}`}>
                     {String(s.order ?? i + 1).padStart(2, '0')}
                   </span>
                   <span className="text-service">{s.name}</span>

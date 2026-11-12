@@ -62,7 +62,7 @@ export default async function ContactPage() {
               <a href={`tel:${tel}`} className="text-h2">
                 {settings.hotlineLabel?.replace(', Mr. Cường', '') || '(+84) 939 899 283'}
               </a>
-              <p className="mt-1 text-small !text-white/70">Mr. Cường</p>
+              <p className="mt-1 text-small !text-white/80">Mr. Cường</p>
             </Strip>
             <Strip label="Nhắn">
               <a className="underline underline-offset-4" href={settings.zaloUrl || 'https://zalo.me/0939899283'}>
@@ -118,8 +118,8 @@ export default async function ContactPage() {
             <h2 className="text-h2 mb-2">Câu hỏi thường gặp</h2>
             <div>
               {faqs.docs.map((f) => (
-                <details key={f.id} className="border-t border-[var(--line-on-ruby)] py-5 last:border-b">
-                  <summary className="cursor-pointer text-h3 list-none">{f.question}</summary>
+                <details key={f.id} className="faq border-t border-[var(--line-on-ruby)] py-5 last:border-b">
+                  <summary className="cursor-pointer text-h3">{f.question}</summary>
                   <p className="mt-3 max-w-3xl text-white/85">{f.answer}</p>
                 </details>
               ))}

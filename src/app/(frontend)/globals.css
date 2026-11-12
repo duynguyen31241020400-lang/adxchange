@@ -159,12 +159,79 @@ body {
   color: var(--ruby);
 }
 .btn-on-ruby:hover {
-  background: var(--white);
-  color: var(--ruby-deep);
+  background: var(--ruby-deep);
+  color: var(--white);
 }
-.btn:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 2px;
+.btn:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+/* G.4.6 — keyboard focus must be visible on both white and ruby sections */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* G.12 — menu: ruby layer slides down 500ms, giant items stagger 60ms */
+.menu-panel {
+  animation: menuDown 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.menu-item {
+  animation: menuItem 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes menuDown {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes menuItem {
+  from {
+    opacity: 0;
+    transform: translateY(40%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* FAQ accordion: visible +/− so the row reads as clickable (G.4.1) */
+.faq summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  list-style: none;
+}
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq summary::after {
+  content: "+";
+  flex-shrink: 0;
+  font-family: var(--font-display-family), sans-serif;
+}
+.faq[open] summary::after {
+  content: "−";
+}
+
+.fade-in {
+  animation: fadeIn 300ms ease both;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .link-underline {
@@ -262,7 +329,8 @@ body {
 .marquee-track.reverse {
   animation-direction: reverse;
 }
-.marquee:hover .marquee-track {
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
   animation-play-state: paused;
 }
 @keyframes marquee {

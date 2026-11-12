@@ -54,12 +54,18 @@ export function ClientMarquee({
   const row = [...items, ...items]
   return (
     <section className="marquee overflow-hidden border-y border-[var(--line)] py-10" aria-label="Khách hàng">
-      <div className="marquee-track items-center">
+      {/* Screen readers get the list once; the scrolling copies are decorative. */}
+      <ul className="sr-only">
+        {items.map((c) => (
+          <li key={c.name}>{c.name}</li>
+        ))}
+      </ul>
+      <div className="marquee-track items-center" aria-hidden="true">
         {row.map((client, i) => (
           <MarqueeItem key={`a-${i}`} client={client} />
         ))}
       </div>
-      <div className="marquee-track reverse mt-6 items-center">
+      <div className="marquee-track reverse mt-6 items-center" aria-hidden="true">
         {row.map((client, i) => (
           <MarqueeItem key={`b-${i}`} client={client} />
         ))}

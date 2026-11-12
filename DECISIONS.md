@@ -88,3 +88,12 @@ After host is live: set `NEXT_PUBLIC_SITE_URL` to the HTTPS origin, run `pnpm se
 - Media API rewrite giữ từ PR media-url (`mediaUrl` + middleware).
 - About: một trang dài + sticky TOC; `/gioi-thieu/[slug]` → 308 `/gioi-thieu#slug`. Team ẩn nếu chỉ placeholder `[...]`.
 - Project detail: bỏ “Dự án khác”; chỉ CTA fullscreen “Dự án tiếp theo”.
+
+## UI v3 — soát theo spec G (2026-11-13)
+
+- **Cuộn phim `/du-an` (G.7 vs G.4.5):** spec vừa yêu cầu ghim + scrub, vừa cấm chặn cuộn quá 1 màn hình. Giữ ghim nhưng giới hạn quãng ghim = 0,9 chiều cao màn hình, có snap theo từng khung. Khung đang chọn luôn ở giữa màn hình.
+- **Dải ảnh hiện trường trang chủ (G.6.5):** bỏ ghim (trước đây ghim ~5 màn hình). Dải ảnh vẫn chạy ngang theo cuộn (`scrub`) trong lúc phần này đi qua màn hình.
+- **Intro (G.5):** để tổng thời gian ≤ 2,4 giây với 14 thanh, độ trễ mỗi thanh giảm từ 40ms xuống ~23ms (mobile 7 thanh vẫn 40ms).
+- **Lọc dự án:** lọc phía client (không tải lại trang), URL `?dich-vu=` cập nhật bằng `history.replaceState`; link lọc vẫn là `<a href>` thật cho no-JS và SEO.
+- **Chữ nhỏ màu trắng mờ trên nền ruby:** nâng tối thiểu lên `white/80` để đạt tương phản 4.5:1 (`white/60`–`/70` chỉ đạt ~3.7–4.3:1).
+- **Ảnh chụp kiểm tra `screenshots/v3/`:** chỉ lưu local, không commit (~20MB).

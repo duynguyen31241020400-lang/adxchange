@@ -69,7 +69,7 @@ export default async function AboutPage() {
 
           <div className="min-w-0 flex-1 space-y-24">
             <section id="cau-chuyen" className="scroll-mt-28">
-              <p className="text-index !text-[var(--muted)]">01 · Câu chuyện</p>
+              <h2 className="text-index !text-[var(--muted)]">01 · Câu chuyện</h2>
               <p className="mt-6 max-w-3xl text-lg text-[var(--ink)]">{about.intro}</p>
               <p className="text-h2 mt-12 !text-[var(--ruby)]">{about.vision}</p>
               <p className="text-h3 mt-8 max-w-2xl !text-[var(--ink)]">{about.mission}</p>
@@ -77,7 +77,7 @@ export default async function AboutPage() {
                 {(about.values || []).map((v, i) => (
                   <div key={i} className="border-t border-[var(--line)] pt-5">
                     <p className="text-index">{String(i + 1).padStart(2, '0')}</p>
-                    <h2 className="text-h3 mt-3 !text-[var(--ruby)]">{v.title}</h2>
+                    <h3 className="text-h3 mt-3 !text-[var(--ruby)]">{v.title}</h3>
                     <p className="mt-2 text-[var(--ink)]">{v.description}</p>
                   </div>
                 ))}
@@ -85,7 +85,7 @@ export default async function AboutPage() {
             </section>
 
             <section id="dich-vu" className="scroll-mt-28">
-              <p className="text-index !text-[var(--muted)]">02 · Dịch vụ</p>
+              <h2 className="text-index !text-[var(--muted)]">02 · Dịch vụ</h2>
               <div className="mt-8">
                 <ServiceRows
                   services={services.docs.map((s) => ({
@@ -97,14 +97,14 @@ export default async function AboutPage() {
             </section>
 
             <section id="cot-moc" className="scroll-mt-28">
-              <p className="text-index !text-[var(--muted)]">03 · Cột mốc</p>
+              <h2 className="text-index !text-[var(--muted)]">03 · Cột mốc</h2>
               <div className="mt-8">
                 <MilestoneStrip items={about.milestones || []} />
               </div>
             </section>
 
             <section id="khach-hang" className="scroll-mt-28">
-              <p className="text-index !text-[var(--muted)]">04 · Khách hàng</p>
+              <h2 className="text-index !text-[var(--muted)]">04 · Khách hàng</h2>
               <div className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
                 {clients.docs.map((c) => {
                   const logo = (c.showLogo ? mediaUrl(c.logo) : null) || clientLogoSrc(c.name) || null
@@ -123,14 +123,14 @@ export default async function AboutPage() {
 
             {showTeam ? (
               <section id="doi-ngu" className="scroll-mt-28">
-                <p className="text-index !text-[var(--muted)]">05 · Đội ngũ</p>
+                <h2 className="text-index !text-[var(--muted)]">05 · Đội ngũ</h2>
                 <div className="mt-10 grid gap-10 md:grid-cols-2">
                   {(about.team || []).map((member, i) => (
                     <div key={i}>
                       <div className="aspect-[4/5] bg-[var(--ruby)]/5 grid place-items-center">
                         <span className="text-small">[Ảnh]</span>
                       </div>
-                      <h2 className="text-h3 mt-4 !text-[var(--ruby)]">{member.name}</h2>
+                      <h3 className="text-h3 mt-4 !text-[var(--ruby)]">{member.name}</h3>
                       <p className="text-small">{member.title}</p>
                     </div>
                   ))}
