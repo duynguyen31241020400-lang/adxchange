@@ -92,6 +92,16 @@ export const Projects: CollectionConfig = {
       label: 'Dịch vụ',
     },
     {
+      name: 'summary',
+      type: 'textarea',
+      label: 'Tóm tắt nhanh',
+      required: true,
+      maxLength: 180,
+      admin: {
+        description: 'Tối đa 180 ký tự. Dùng cho cuộn phim dự án và mô tả SEO dự phòng.',
+      },
+    },
+    {
       name: 'coverImage',
       type: 'upload',
       relationTo: 'media',

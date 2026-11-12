@@ -10,9 +10,6 @@ const STATIC_ROUTES = [
   '/du-an',
   '/dich-vu',
   '/gioi-thieu',
-  '/gioi-thieu/cau-chuyen',
-  '/gioi-thieu/doi-ngu',
-  '/gioi-thieu/khach-hang',
   '/lien-he',
   '/chinh-sach-bao-mat',
 ]

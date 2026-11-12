@@ -1,9 +1,7 @@
-import 'dotenv/config'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { getPayload } from 'payload'
-import config from '../payload.config'
+import { loadSeedEnv } from './loadEnv'
 import { servicesSeed } from './services'
 import { projectsSeed } from './projects'
 import {
@@ -15,11 +13,16 @@ import {
   siteSettingsSeed,
 } from './site'
 
+// Must run before dynamic-importing payload.config (ESM imports are hoisted).
+loadSeedEnv()
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const seedMedia = path.join(root, 'seed-media')
 
+type PayloadClient = Awaited<ReturnType<typeof import('payload').getPayload>>
+
 async function uploadFile(
-  payload: Awaited<ReturnType<typeof getPayload>>,
+  payload: PayloadClient,
   relativePath: string,
   alt: string,
 ) {
@@ -129,7 +132,7 @@ function privacyToLexical() {
   }
 }
 
-async function clearCollection(payload: Awaited<ReturnType<typeof getPayload>>, slug: 'projects' | 'services' | 'clients' | 'faqs' | 'media' | 'leads') {
+async function clearCollection(payload: PayloadClient, slug: 'projects' | 'services' | 'clients' | 'faqs' | 'media' | 'leads') {
   const existing = await payload.find({ collection: slug, limit: 200, overrideAccess: true })
   for (const doc of existing.docs) {
     await payload.delete({ collection: slug, id: doc.id, overrideAccess: true })
@@ -137,6 +140,8 @@ async function clearCollection(payload: Awaited<ReturnType<typeof getPayload>>, 
 }
 
 async function main() {
+  const { getPayload } = await import('payload')
+  const { default: config } = await import('../payload.config')
   const payload = await getPayload({ config })
 
   console.log('Seeding users...')
@@ -245,6 +250,7 @@ async function main() {
         clients: clientIds,
         clientLabel: p.clientLabel,
         year: p.year ?? undefined,
+        summary: (p as { summary?: string }).summary || p.context.slice(0, 180),
         services: p.serviceSlugs.map((s) => serviceIdBySlug.get(s)).filter(Boolean) as (string | number)[],
         coverImage: coverId,
         gallery,

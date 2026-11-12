@@ -277,6 +277,10 @@ export interface Project {
   clientLabel?: string | null;
   year?: number | null;
   services?: (number | Service)[] | null;
+  /**
+   * Tối đa 180 ký tự. Dùng cho cuộn phim dự án và mô tả SEO dự phòng.
+   */
+  summary: string;
   coverImage?: (number | null) | Media;
   gallery?:
     | {
@@ -722,6 +726,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   clientLabel?: T;
   year?: T;
   services?: T;
+  summary?: T;
   coverImage?: T;
   gallery?:
     | T
@@ -912,6 +917,10 @@ export interface SiteSetting {
   foundedYear?: string | null;
   capabilityFile?: (number | null) | Media;
   heroSubline?: string | null;
+  /**
+   * Video dưới 15 giây, đã nén. mp4/webm, tối đa 15MB.
+   */
+  heroVideo?: (number | null) | Media;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -1037,6 +1046,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   foundedYear?: T;
   capabilityFile?: T;
   heroSubline?: T;
+  heroVideo?: T;
   meta?:
     | T
     | {

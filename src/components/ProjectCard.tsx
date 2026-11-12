@@ -26,7 +26,7 @@ export function ProjectCard({
   return (
     <Link href={href} className="project-card group block">
       <div
-        className="reveal-image relative overflow-hidden bg-[var(--dark)]"
+        className="reveal-image relative overflow-hidden bg-[var(--ruby-deep)]"
         style={{ aspectRatio: aspect }}
       >
         {src ? (
@@ -34,11 +34,9 @@ export function ProjectCard({
           <img src={src} alt={alt} className="h-full w-full object-cover" />
         ) : (
           <div className="flex h-full w-full items-end p-6">
-            <span className="text-h3 !text-[var(--bg)]">{project.name}</span>
+            <span className="text-h3 !text-white">{project.name}</span>
           </div>
         )}
-        {/* Dim translucent overlay so cover photos stay readable under any future text */}
-        <div className="pointer-events-none absolute inset-0 bg-black/40" aria-hidden />
       </div>
       <div className="mt-4 flex items-start gap-3">
         <span className="text-index">{String(index).padStart(2, '0')}</span>

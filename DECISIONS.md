@@ -12,6 +12,7 @@ Các lựa chọn khi brief không nói rõ, hoặc môi trường buộc phải
 - Brief: Next.js 15. Payload `3.93.0` peer range loại Next `15.5.x`, nên pin `next@15.4.11` (vẫn là Next 15 App Router).
 - Local Postgres (apt) thay Docker/Neon khi chưa có `DATABASE_URI` production.
 - Media: local disk khi thiếu R2; bật `@payloadcms/storage-s3` khi đủ biến `R2_*`.
+- Netlify không giữ `media/` (gitignore + filesystem function tạm). Khi chưa có R2: mirror seed vào `public/media/file/` (`pnpm publish-media`). Payload vẫn resolve `url` thành `/api/media/file/...` lúc đọc → `mediaUrl()` + `src/middleware.ts` rewrite sang `/media/file/...`. R2 vẫn là hướng production đúng.
 
 ## Nội dung / ảnh
 
@@ -76,3 +77,23 @@ After host is live: set `NEXT_PUBLIC_SITE_URL` to the HTTPS origin, run `pnpm se
 
 - Local Next (`127.0.0.1:3000`) + **cloudflared quick tunnel** (tmux `adx-ui-tunnel`) — keep running until replaced.
 - URL at last check: `https://arms-suffering-console-subscriber.trycloudflare.com` (ephemeral; may rotate if tunnel restarts).
+
+## UI v3 (ruby / trắng)
+
+- Branch agent: `cursor/ui-v3-a595` (cloud prefix); brief gọi `ui-v3`.
+- Bỏ theme A/B/C + ThemeControls + Barlow/Oswald + `/dev/font-check`. Chỉ Anton + Be Vietnam Pro.
+- Token `--muted` brief `#9A8A8D` (~3.3:1 trên trắng) → `#6B5A5D` (≥4.5:1). Ruby/trắng ~7.76:1.
+- Không gradient trang trí; hero chỉ dùng lớp đen 40% để chữ đọc được trên ảnh.
+- `projects.summary` bắt buộc (≤180). `siteSettings.heroVideo` upload tùy chọn mp4/webm.
+- Media API rewrite giữ từ PR media-url (`mediaUrl` + middleware).
+- About: một trang dài + sticky TOC; `/gioi-thieu/[slug]` → 308 `/gioi-thieu#slug`. Team ẩn nếu chỉ placeholder `[...]`.
+- Project detail: bỏ “Dự án khác”; chỉ CTA fullscreen “Dự án tiếp theo”.
+
+## UI v3 — soát theo spec G (2026-11-13)
+
+- **Cuộn phim `/du-an` (G.7 vs G.4.5):** spec vừa yêu cầu ghim + scrub, vừa cấm chặn cuộn quá 1 màn hình. Giữ ghim nhưng giới hạn quãng ghim = 0,9 chiều cao màn hình, có snap theo từng khung. Khung đang chọn luôn ở giữa màn hình.
+- **Dải ảnh hiện trường trang chủ (G.6.5):** bỏ ghim (trước đây ghim ~5 màn hình). Dải ảnh vẫn chạy ngang theo cuộn (`scrub`) trong lúc phần này đi qua màn hình.
+- **Intro (G.5):** để tổng thời gian ≤ 2,4 giây với 14 thanh, độ trễ mỗi thanh giảm từ 40ms xuống ~23ms (mobile 7 thanh vẫn 40ms).
+- **Lọc dự án:** lọc phía client (không tải lại trang), URL `?dich-vu=` cập nhật bằng `history.replaceState`; link lọc vẫn là `<a href>` thật cho no-JS và SEO.
+- **Chữ nhỏ màu trắng mờ trên nền ruby:** nâng tối thiểu lên `white/80` để đạt tương phản 4.5:1 (`white/60`–`/70` chỉ đạt ~3.7–4.3:1).
+- **Ảnh chụp kiểm tra `screenshots/v3/`:** chỉ lưu local, không commit (~20MB).

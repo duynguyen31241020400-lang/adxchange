@@ -15,7 +15,7 @@ export const Media: CollectionConfig = {
   },
   upload: {
     staticDir: 'media',
-    mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'],
+    mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'application/pdf', 'video/mp4', 'video/webm'],
     imageSizes: [
       { name: 'thumb', width: 400, height: 400, position: 'centre', formatOptions: { format: 'webp' } },
       { name: 'card', width: 1200, height: undefined, position: 'centre', formatOptions: { format: 'webp' } },

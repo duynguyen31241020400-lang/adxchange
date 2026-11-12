@@ -1,72 +1,38 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: var(--bg);
-  --color-bg-alt: var(--bg-alt);
-  --color-line: var(--line);
+  --color-ruby: var(--ruby);
+  --color-ruby-deep: var(--ruby-deep);
+  --color-white: var(--white);
   --color-ink: var(--ink);
-  --color-body: var(--body);
   --color-muted: var(--muted);
-  --color-primary: var(--primary);
-  --color-primary-text: var(--primary-text);
-  --color-dark: var(--dark);
-  --color-secondary: var(--secondary);
+  --color-line: var(--line);
+  --color-bg: var(--bg);
+  --color-primary: var(--ruby);
+  --color-primary-text: var(--ruby);
+  --color-dark: var(--ruby-deep);
+  --color-body: var(--ink);
+  --color-bg-alt: var(--white);
+  --color-secondary: var(--ruby-deep);
   --font-display: var(--font-display-family);
   --font-sans: var(--font-body-family);
 }
 
-:root,
-[data-theme="a"] {
-  --bg: #faf6f2;
-  --bg-alt: #f1e5e3;
-  --line: #e6d6d3;
-  --ink: #1f1416;
-  --body: #4a3a3d;
-  --muted: #7a666a;
-  --primary: #9b1b30;
-  --primary-text: #9b1b30;
-  --dark: #1f1416;
-  --secondary: #c2405a;
-}
-
-[data-theme="b"] {
-  --bg: #160a0e;
-  --bg-alt: #241318;
-  --line: #3a2229;
-  --ink: #f8eeef;
-  --body: #d9c6ca;
-  --muted: #a99197;
-  --primary: #c21f3a;
-  --primary-text: #f0566e;
-  --dark: #0e0609;
-  --secondary: #8e1b33;
-}
-
-[data-theme="c"] {
-  --bg: #fbf7f9;
-  --bg-alt: #f2e7ee;
-  --line: #e7d8e1;
-  --ink: #1d1220;
-  --body: #46374a;
-  --muted: #76667a;
-  --primary: #a4133c;
-  --primary-text: #a4133c;
-  --dark: #1d1220;
-  --secondary: #5b2a86;
-}
-
-[data-font="1"] {
+:root {
+  --ruby: #a50f2d;
+  --ruby-deep: #7a0a20;
+  --white: #ffffff;
+  --ink: #1a0b0e;
+  /* Brief #9A8A8D is ~3.3:1 on white; #6B5A5D keeps muted role at ≥4.5:1 */
+  --muted: #6b5a5d;
+  --line: rgba(165, 15, 45, 0.18);
+  --line-on-ruby: rgba(255, 255, 255, 0.25);
+  --bg: var(--white);
   --font-display-family: var(--font-anton), "Arial Narrow", sans-serif;
-}
-[data-font="2"] {
-  --font-display-family: var(--font-barlow), "Arial Narrow", sans-serif;
-}
-[data-font="3"] {
-  --font-display-family: var(--font-oswald), "Arial Narrow", sans-serif;
 }
 
 html {
-  background: var(--bg);
+  background: var(--white);
   color: var(--ink);
 }
 
@@ -74,8 +40,8 @@ body {
   font-family: var(--font-body-family), sans-serif;
   font-size: clamp(16px, 1.05vw, 17px);
   line-height: 1.65;
-  color: var(--body);
-  background: var(--bg);
+  color: var(--ink);
+  background: var(--white);
 }
 
 .container {
@@ -90,65 +56,60 @@ body {
   }
 }
 
-.text-display {
-  font-family: var(--font-display-family), sans-serif;
-  font-size: clamp(56px, 8vw, 128px);
-  line-height: 0.95;
-  text-transform: uppercase;
-  color: var(--ink);
-  font-weight: 400;
+.section-white {
+  background: var(--white);
+  color: var(--ruby);
 }
-[data-font="2"] .text-display,
-[data-font="2"] .text-h1,
-[data-font="2"] .text-h2,
-[data-font="2"] .text-h3,
-[data-font="2"] .text-service,
-[data-font="2"] .text-stat,
-[data-font="2"] .text-index {
-  font-weight: 700;
+.section-ruby {
+  background: var(--ruby);
+  color: var(--white);
 }
-[data-font="3"] .text-display,
-[data-font="3"] .text-h1,
-[data-font="3"] .text-h2,
-[data-font="3"] .text-h3,
-[data-font="3"] .text-service,
-[data-font="3"] .text-stat,
-[data-font="3"] .text-index {
-  font-weight: 600;
+.section-ruby-deep {
+  background: var(--ruby-deep);
+  color: var(--white);
 }
 
+.text-display {
+  font-family: var(--font-display-family), sans-serif;
+  font-size: clamp(56px, 12vw, 160px);
+  line-height: 0.92;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: inherit;
+}
 .text-h1 {
   font-family: var(--font-display-family), sans-serif;
-  font-size: clamp(48px, 6vw, 96px);
-  line-height: 1;
+  font-size: clamp(48px, 8vw, 112px);
+  line-height: 0.95;
   text-transform: uppercase;
-  color: var(--ink);
+  color: inherit;
 }
 .text-h2 {
   font-family: var(--font-display-family), sans-serif;
-  font-size: clamp(36px, 4vw, 56px);
-  line-height: 1.05;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.02;
   text-transform: uppercase;
-  color: var(--ink);
+  color: inherit;
 }
 .text-h3 {
   font-family: var(--font-display-family), sans-serif;
-  font-size: clamp(22px, 2vw, 28px);
-  line-height: 1.2;
-  color: var(--ink);
+  font-size: clamp(22px, 2.4vw, 32px);
+  line-height: 1.15;
+  text-transform: uppercase;
+  color: inherit;
 }
 .text-service {
   font-family: var(--font-display-family), sans-serif;
   font-size: clamp(32px, 4.2vw, 64px);
   line-height: 1.1;
   text-transform: uppercase;
-  color: var(--ink);
+  color: inherit;
 }
 .text-stat {
   font-family: var(--font-display-family), sans-serif;
-  font-size: clamp(56px, 6vw, 96px);
+  font-size: clamp(56px, 7vw, 104px);
   line-height: 1;
-  color: var(--ink);
+  color: inherit;
 }
 .text-small {
   font-size: clamp(13px, 1vw, 14px);
@@ -162,33 +123,119 @@ body {
   color: var(--muted);
   letter-spacing: 0.04em;
 }
+.text-body-ink {
+  color: var(--ink);
+}
 
 .btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  height: 52px;
+  min-height: 52px;
   padding: 0 22px;
-  background: var(--primary);
-  color: #fff;
+  background: var(--ruby);
+  color: var(--white);
   text-transform: uppercase;
-  border-radius: 2px;
+  border-radius: 0;
   border: none;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
   text-decoration: none;
+  transition: background 200ms ease, transform 200ms ease;
 }
 .btn:hover {
-  filter: brightness(1.05);
+  background: var(--ruby-deep);
 }
-.btn:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 2px;
+.btn:hover .btn-arrow {
+  transform: translateX(4px);
+}
+.btn .btn-arrow {
+  display: inline-block;
+  transition: transform 200ms ease;
+}
+.btn-on-ruby {
+  background: var(--white);
+  color: var(--ruby);
+}
+.btn-on-ruby:hover {
+  background: var(--ruby-deep);
+  color: var(--white);
+}
+.btn:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+/* G.4.6 — keyboard focus must be visible on both white and ruby sections */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* G.12 — menu: ruby layer slides down 500ms, giant items stagger 60ms */
+.menu-panel {
+  animation: menuDown 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.menu-item {
+  animation: menuItem 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes menuDown {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes menuItem {
+  from {
+    opacity: 0;
+    transform: translateY(40%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* FAQ accordion: visible +/− so the row reads as clickable (G.4.1) */
+.faq summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  list-style: none;
+}
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq summary::after {
+  content: "+";
+  flex-shrink: 0;
+  font-family: var(--font-display-family), sans-serif;
+}
+.faq[open] summary::after {
+  content: "−";
+}
+
+.fade-in {
+  animation: fadeIn 300ms ease both;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .link-underline {
-  color: var(--ink);
+  color: inherit;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -197,29 +244,68 @@ body {
   border: 0;
   border-top: 1px solid var(--line);
 }
+.rule-on-ruby {
+  border: 0;
+  border-top: 1px solid var(--line-on-ruby);
+}
+
+.contact-strip {
+  display: grid;
+  grid-template-columns: minmax(100px, 180px) 1fr;
+  gap: 1rem 2rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--line-on-ruby);
+}
+.contact-strip:first-of-type {
+  border-top: 1px solid var(--line-on-ruby);
+}
+.contact-strip-label {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+}
+@media (max-width: 640px) {
+  .contact-strip {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+}
 
 .input,
 .select,
 .textarea {
   width: 100%;
   height: 52px;
-  border: 1px solid var(--line);
-  border-radius: 2px;
-  background: var(--bg);
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
   color: var(--ink);
-  padding: 0 14px;
+  padding: 0;
   font: inherit;
 }
 .textarea {
   height: auto;
   min-height: 140px;
-  padding: 12px 14px;
+  padding: 12px 0;
 }
 .input:focus-visible,
 .select:focus-visible,
 .textarea:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 1px;
+  outline: none;
+  border-bottom-color: var(--ruby);
+}
+.input-on-ruby,
+.select-on-ruby,
+.textarea-on-ruby {
+  border-bottom-color: var(--line-on-ruby);
+  color: var(--white);
+}
+.input-on-ruby:focus-visible,
+.select-on-ruby:focus-visible,
+.textarea-on-ruby:focus-visible {
+  border-bottom-color: var(--white);
 }
 
 .project-card img {
@@ -228,28 +314,10 @@ body {
 .project-card:hover img {
   transform: scale(1.04);
 }
-.project-card .project-name {
-  background-image: linear-gradient(currentColor, currentColor);
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  background-size: 0 1px;
-  transition: background-size 400ms ease;
-}
-.project-card:hover .project-name {
-  background-size: 100% 1px;
-}
 
-/* Keep dark-on-transparent brand marks readable on theme B */
-[data-theme="b"] img.client-logo {
-  background: rgba(255, 255, 255, 0.94);
+.client-logo-dark-chip {
+  background: var(--ink);
   padding: 0.35rem 0.55rem;
-  border-radius: 2px;
-}
-
-/* Light-on-transparent marks already sit on a dark chip — skip the white pad */
-[data-theme="b"] .client-logo-dark-chip img.client-logo {
-  background: transparent;
-  padding: 0;
 }
 
 .marquee-track {
@@ -261,7 +329,8 @@ body {
 .marquee-track.reverse {
   animation-direction: reverse;
 }
-.marquee:hover .marquee-track {
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
   animation-play-state: paused;
 }
 @keyframes marquee {
@@ -279,7 +348,7 @@ body {
   opacity: 0;
 }
 .reveal-line.is-in {
-  animation: revealLine 550ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: revealLine 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 @keyframes revealLine {
   to {
@@ -303,6 +372,33 @@ body {
   to {
     clip-path: inset(0 0 0 0);
   }
+}
+
+.giant-clip-text {
+  background-size: cover;
+  background-position: center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .giant-clip-text {
+    color: var(--white);
+    -webkit-text-fill-color: var(--white);
+    background: none;
+  }
+}
+
+.film-sprocket {
+  height: 18px;
+  background-image: repeating-linear-gradient(
+    to right,
+    transparent 0 10px,
+    var(--white) 10px 22px,
+    transparent 22px 34px
+  );
+  opacity: 0.85;
 }
 
 @media (prefers-reduced-motion: reduce) {
