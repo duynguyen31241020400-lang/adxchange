@@ -15,6 +15,15 @@ function mapsUrl(address: string) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
 }
 
+function Strip({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="contact-strip">
+      <div className="contact-strip-label">{label}</div>
+      <div>{children}</div>
+    </div>
+  )
+}
+
 export default async function ContactPage() {
   const [settings, services, faqs] = await Promise.all([
     getSiteSettings(),
@@ -43,56 +52,80 @@ export default async function ContactPage() {
           },
         ])}
       />
-      <div className="container pt-28 pb-20">
-        <h1 className="text-h1">Liên hệ</h1>
-        <div className="mt-12 grid gap-14 lg:grid-cols-2">
-          <div>
-            <a href={`tel:${tel}`} className="text-h2 block">
-              {settings.hotlineLabel || '(+84) 939 899 283, Mr. Cường'}
-            </a>
-            <p className="mt-4">
-              <a className="underline" href={settings.zaloUrl || 'https://zalo.me/0939899283'}>
-                Zalo {settings.zalo}
-              </a>
-            </p>
-            <p className="mt-2">
-              <a className="underline" href={`mailto:${settings.email}`}>
-                {settings.email}
-              </a>
-            </p>
-            <div className="mt-8 space-y-6">
-              <div>
-                <p>{settings.officeAddress}</p>
-                {settings.officeAddress ? (
-                  <a className="link-underline mt-2 inline-block" href={mapsUrl(settings.officeAddress)} target="_blank" rel="noopener noreferrer">
-                    Xem bản đồ →
-                  </a>
-                ) : null}
-              </div>
-              <div>
-                <p>{settings.branchAddress}</p>
-                {settings.branchAddress ? (
-                  <a className="link-underline mt-2 inline-block" href={mapsUrl(settings.branchAddress)} target="_blank" rel="noopener noreferrer">
-                    Xem bản đồ →
-                  </a>
-                ) : null}
-              </div>
-            </div>
-          </div>
-          <ContactForm services={services.docs.map((s) => ({ id: s.id, name: s.name }))} />
-        </div>
 
-        <section className="mt-20" id="faq">
-          <h2 className="text-h2 mb-8">Câu hỏi thường gặp</h2>
-          <div>
-            {faqs.docs.map((f) => (
-              <details key={f.id} className="border-t border-[var(--line)] py-4 last:border-b">
-                <summary className="cursor-pointer text-h3">{f.question}</summary>
-                <p className="mt-3 max-w-3xl">{f.answer}</p>
-              </details>
-            ))}
+      <div className="section-ruby min-h-screen">
+        <div className="container pt-28 pb-20">
+          <h1 className="text-display">Liên hệ</h1>
+
+          <div className="mt-14">
+            <Strip label="Gọi">
+              <a href={`tel:${tel}`} className="text-h2">
+                {settings.hotlineLabel?.replace(', Mr. Cường', '') || '(+84) 939 899 283'}
+              </a>
+              <p className="mt-1 text-small !text-white/70">Mr. Cường</p>
+            </Strip>
+            <Strip label="Nhắn">
+              <a className="underline underline-offset-4" href={settings.zaloUrl || 'https://zalo.me/0939899283'}>
+                Zalo {settings.zalo || '0939 899 283'}
+              </a>
+              {' · '}
+              <a className="underline underline-offset-4" href={`mailto:${settings.email || 'cuong@adxchange.agency'}`}>
+                {settings.email || 'cuong@adxchange.agency'}
+              </a>
+            </Strip>
+            <Strip label="Văn phòng">
+              {settings.officeAddress ? (
+                <p>
+                  {settings.officeAddress}{' '}
+                  <a className="underline underline-offset-4" href={mapsUrl(settings.officeAddress)} target="_blank" rel="noopener noreferrer">
+                    Xem bản đồ →
+                  </a>
+                </p>
+              ) : null}
+              {settings.branchAddress ? (
+                <p className="mt-2">
+                  {settings.branchAddress}{' '}
+                  <a className="underline underline-offset-4" href={mapsUrl(settings.branchAddress)} target="_blank" rel="noopener noreferrer">
+                    Xem bản đồ →
+                  </a>
+                </p>
+              ) : null}
+            </Strip>
+            {(settings.social || []).length ? (
+              <Strip label="Mạng xã hội">
+                <div className="flex flex-wrap gap-x-4 gap-y-2">
+                  {(settings.social || []).map((s) =>
+                    s.url ? (
+                      <a key={s.url} href={s.url} className="underline underline-offset-4" target="_blank" rel="noopener noreferrer">
+                        {s.label || s.url}
+                      </a>
+                    ) : null,
+                  )}
+                </div>
+              </Strip>
+            ) : null}
           </div>
-        </section>
+
+          <div className="mt-16 max-w-2xl">
+            <h2 className="text-h3 mb-8">Gửi yêu cầu</h2>
+            <ContactForm
+              variant="onRuby"
+              services={services.docs.map((s) => ({ id: s.id, name: s.name }))}
+            />
+          </div>
+
+          <section className="mt-20" id="faq">
+            <h2 className="text-h2 mb-2">Câu hỏi thường gặp</h2>
+            <div>
+              {faqs.docs.map((f) => (
+                <details key={f.id} className="border-t border-[var(--line-on-ruby)] py-5 last:border-b">
+                  <summary className="cursor-pointer text-h3 list-none">{f.question}</summary>
+                  <p className="mt-3 max-w-3xl text-white/85">{f.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        </div>
       </div>
     </>
   )

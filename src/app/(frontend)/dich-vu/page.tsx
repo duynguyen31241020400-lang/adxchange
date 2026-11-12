@@ -25,21 +25,22 @@ export default async function ServicesPage() {
           ]),
         )}
       />
-      <div className="container pt-28 pb-16">
-        <h1 className="text-h1 mb-10">Dịch vụ</h1>
-        <ServiceRows
-          services={services.docs.map((s) => ({
-            ...s,
-            relatedImageUrl: mediaUrl(s.image),
-          }))}
-        />
+      <div className="section-white">
+        <div className="container pt-28 pb-16">
+          <h1 className="text-display !text-[var(--ruby)]">Dịch vụ</h1>
+          <div className="mt-12">
+            <ServiceRows
+              services={services.docs.map((s) => ({
+                ...s,
+                relatedImageUrl: mediaUrl(s.image),
+              }))}
+            />
+          </div>
+        </div>
       </div>
       <ContactCTA
         hotlineLabel={settings.hotlineLabel || undefined}
         hotline={settings.hotline || undefined}
-        zalo={settings.zalo || undefined}
-        zaloUrl={settings.zaloUrl || undefined}
-        email={settings.email || undefined}
       />
     </>
   )

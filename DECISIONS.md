@@ -86,3 +86,5 @@ After host is live: set `NEXT_PUBLIC_SITE_URL` to the HTTPS origin, run `pnpm se
 - Không gradient trang trí; hero chỉ dùng lớp đen 40% để chữ đọc được trên ảnh.
 - `projects.summary` bắt buộc (≤180). `siteSettings.heroVideo` upload tùy chọn mp4/webm.
 - Media API rewrite giữ từ PR media-url (`mediaUrl` + middleware).
+- About: một trang dài + sticky TOC; `/gioi-thieu/[slug]` → 308 `/gioi-thieu#slug`. Team ẩn nếu chỉ placeholder `[...]`.
+- Project detail: bỏ “Dự án khác”; chỉ CTA fullscreen “Dự án tiếp theo”.
