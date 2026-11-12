@@ -77,3 +77,12 @@ After host is live: set `NEXT_PUBLIC_SITE_URL` to the HTTPS origin, run `pnpm se
 
 - Local Next (`127.0.0.1:3000`) + **cloudflared quick tunnel** (tmux `adx-ui-tunnel`) — keep running until replaced.
 - URL at last check: `https://arms-suffering-console-subscriber.trycloudflare.com` (ephemeral; may rotate if tunnel restarts).
+
+## UI v3 (ruby / trắng)
+
+- Branch agent: `cursor/ui-v3-a595` (cloud prefix); brief gọi `ui-v3`.
+- Bỏ theme A/B/C + ThemeControls + Barlow/Oswald + `/dev/font-check`. Chỉ Anton + Be Vietnam Pro.
+- Token `--muted` brief `#9A8A8D` (~3.3:1 trên trắng) → `#6B5A5D` (≥4.5:1). Ruby/trắng ~7.76:1.
+- Không gradient trang trí; hero chỉ dùng lớp đen 40% để chữ đọc được trên ảnh.
+- `projects.summary` bắt buộc (≤180). `siteSettings.heroVideo` upload tùy chọn mp4/webm.
+- Media API rewrite giữ từ PR media-url (`mediaUrl` + middleware).
